@@ -1,0 +1,28 @@
+@model Seguranca.Models.Repositories.EmpresaRepository
+
+@{
+    ViewBag.Title = "Finanças";
+    Layout = "~/Views/shared/_BootstrapLayout.empty.cshtml";
+}
+
+@using (Html.BeginForm("index", "Home", FormMethod.Post, new { @class="form-signin" }))
+{
+    Model.email = "andreborgesleal@live.com";
+    Model.senha = "123";
+    <h2 class="form-signin-heading">Finanças</h2>
+    <div style="height: 40px">
+       @Html.TextBoxFor(m => m.email, new { @class = "input-block-level", @placeholder="Email" })
+    </div>
+    <div style="height: 30px">
+       @Html.ValidationMessageFor(m => m.email,"",new { @class = "label label-important" })
+    </div>
+    <div style="height: 40px">
+       @Html.PasswordFor(m => m.senha, new { @class = "input-block-level", @placeholder="Senha"})         
+    </div>
+    <div style="height: 30px">
+       @Html.ValidationMessageFor(m => m.senha,"",new { @class = "label label-important" })
+    </div>    <label class="checkbox">
+    <input type="checkbox" value="remember-me"> Esqueci minha senha
+    </label>
+    <button class="btn btn-large btn-primary" type="submit">Acessar</button>
+ }
