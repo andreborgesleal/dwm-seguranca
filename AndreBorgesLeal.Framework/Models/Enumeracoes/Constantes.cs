@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using AndreBorgesLeal.Framework.App_Start;
+using AndreBorgesLeal.Framework.Models.Enumeracoes;
 
 namespace AndreBorgesLeal.Framework.Models.Enumeracoes
 {

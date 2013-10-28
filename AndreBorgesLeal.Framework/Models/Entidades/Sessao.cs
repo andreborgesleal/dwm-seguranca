@@ -13,22 +13,23 @@ namespace AndreBorgesLeal.Framework.Models.Entidades
         [Required(ErrorMessage = "ID da sessão deve ser informado")]
         public string sessaoId { get; set; }
 
+        public int sistemaId { get; set; }
+
+        public decimal usuarioId { get; set; }
+
         public int empresaId { get; set; }
 
-        [DisplayName("Dt.Ativação")]
-        [Required(ErrorMessage = "Data de ativação da sessão deve ser informada")]
-        public DateTime dt_ativacao { get; set; }
+        public DateTime dt_criacao { get; set; }
 
-        [DisplayName("Dt.Atualização")]
-        [Required(ErrorMessage = "Data da atualização da sessão deve ser informada")]
         public DateTime dt_atualizacao { get; set; }
 
-        [DisplayName("Dt.Desativação")]
         public DateTime? dt_desativacao { get; set; }
 
-        [DisplayName("Exercício Contábil")]
-        public int? exercicio { get; set; }     
+        public string isOnline { get; set; }
 
+        public virtual Empresa empresa { get; set; }
+        public virtual Sistema sistema { get; set; }
+        public virtual Usuario usuario { get; set; }
     }
 
 }

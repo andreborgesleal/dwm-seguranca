@@ -4,27 +4,29 @@ using AndreBorgesLeal.Framework.Models.Enumeracoes;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 
 namespace AndreBorgesLeal.Framework.Models.Security
 {
-    public class EmpresaSecurity : Context, ISecurity
+    public class AccessSecurity : Context, ISecurity
     {
-        public Validate autenticar(string usuario, string senha)
+        public Sessao autenticar(string usuario, string senha, int sistemaId)
         {
             using (db = this.Create())
             {
                 Validate validate = new Validate() { Code = 0, Message = MensagemPadrao.Message(0).ToString() };
+                Sessao sessao = new Sessao();
                 try
                 {
                     #region Recupera a empresa
-                    Empresa emp = (from e in db.Empresas where e.email.Equals(usuario) && e.senha.Equals(senha) select e).FirstOrDefault();
+                    Usuario usu = (from u in db.Usuarios where u.login.Equals(usuario) && u.senha.Equals(senha) select u).FirstOrDefault();
                     #endregion
 
                     #region autenticar
-                    if (emp == null)
+                    if (usu == null)
                     {
                         validate.Code = 36;
                         validate.Message = MensagemPadrao.Message(36).ToString();
@@ -35,34 +37,39 @@ namespace AndreBorgesLeal.Framework.Models.Security
                     #region insere a sessao
                     if (validate.Code == 0)
                     {
-                        System.Web.HttpContext web = System.Web.HttpContext.Current;
-                        Sessao s1 = db.Sessaos.Find(web.Session.SessionID);
+                        string sessaoId = Guid.NewGuid().ToString();
+
+                        Sessao s1 = db.Sessaos.Find(sessaoId);
 
                         if (s1 == null)
                         {
-                            Sessao sessao = new Sessao()
-                            {
-                                sessaoId = web.Session.SessionID,
-                                empresaId = emp.empresaId,
-                                dt_ativacao = DateTime.Now,
-                                dt_atualizacao = DateTime.Now,
-                                exercicio = DateTime.Today.Year
-                            };
+                            sessao.sessaoId = sessaoId;
+                            sessao.sistemaId = sistemaId;
+                            sessao.usuarioId = usu.usuarioId;
+                            sessao.empresaId = usu.empresaId;
+                            sessao.dt_criacao = DateTime.Now;
+                            sessao.dt_atualizacao = DateTime.Now;
+                            sessao.isOnline = "S";
 
                             db.Sessaos.Add(sessao);
                         }
                         else
                         {
-                            Sessao sessao = db.Sessaos.Find(web.Session.SessionID);
+                            sessao = db.Sessaos.Find(sessaoId);
+
                             sessao.dt_desativacao = null;
-                            sessao.empresaId = emp.empresaId;
+                            sessao.sistemaId = sistemaId;
+                            sessao.usuarioId = usu.usuarioId;
+                            sessao.empresaId = usu.empresaId;
+                            sessao.dt_criacao = DateTime.Now;
                             sessao.dt_atualizacao = DateTime.Now;
-                            sessao.exercicio = DateTime.Today.Year;
+                            sessao.isOnline = "S";
 
                             db.Entry(sessao).State = EntityState.Modified;
                         }
+
                         db.SaveChanges();
-                        validate.Field = web.Session.SessionID;
+                        return sessao;
                     }
                     #endregion
                 }
@@ -74,7 +81,7 @@ namespace AndreBorgesLeal.Framework.Models.Security
                 {
                     throw new FinancasException(ex.Message, GetType().FullName);
                 }
-                return validate;
+                return sessao;
             }
 
         }

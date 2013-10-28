@@ -1,17 +1,15 @@
-﻿using BootstrapSupport;
+﻿//using BootstrapSupport;
 using AndreBorgesLeal.Framework.Models.Contratos;
 using AndreBorgesLeal.Framework.Models.Control;
-using AndreBorgesLeal.Framework.Models.Entidades;
 using AndreBorgesLeal.Framework.Models.Enumeracoes;
 using AndreBorgesLeal.Framework.Models.Negocio;
-using AndreBorgesLeal.Framework.Models.Report;
 using AndreBorgesLeal.Framework.Models.Repositories;
 using AndreBorgesLeal.Framework.Models.Security;
+using BootstrapSupport;
 using Microsoft.Reporting.WebForms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace AndreBorgesLeal.Framework.Controllers
@@ -26,7 +24,7 @@ namespace AndreBorgesLeal.Framework.Controllers
 
         protected bool AccessDenied(string sessionId)
         {
-            EmpresaSecurity l = new EmpresaSecurity();
+            AccessSecurity l = new AccessSecurity();
             return !l.validarSessao(sessionId);
         }
         #endregion
