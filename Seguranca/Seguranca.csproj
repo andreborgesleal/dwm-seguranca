@@ -39,6 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AndreBorgesLeal.Framework">
+      <HintPath>..\AndreBorgesLeal.Framework\bin\Debug\AndreBorgesLeal.Framework.dll</HintPath>
+    </Reference>
     <Reference Include="Antlr3.Runtime, Version=3.3.1.7705, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Antlr3.Runtime.dll</HintPath>

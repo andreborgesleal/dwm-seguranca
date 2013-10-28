@@ -161,7 +161,7 @@ namespace AndreBorgesLeal.Framework.Models.Entidades
                 {
                     value.mensagem.Code = 17;
                     value.mensagem.Message = MensagemPadrao.Message(17).ToString();
-                    value.mensagem.MessageBase = new FinancasException(ex.InnerException.InnerException.Message ?? ex.Message, GetType().FullName).Message;
+                    value.mensagem.MessageBase = new AndreBorgesLealException(ex.InnerException.InnerException.Message ?? ex.Message, GetType().FullName).Message;
                     value.mensagem.MessageType = MsgType.ERROR;
                 }
             }
@@ -231,7 +231,7 @@ namespace AndreBorgesLeal.Framework.Models.Entidades
                 {
                     value.mensagem.Code = 17;
                     value.mensagem.Message = MensagemPadrao.Message(17).ToString();
-                    value.mensagem.MessageBase = new FinancasException(ex.InnerException.InnerException.Message ?? ex.Message, GetType().FullName).Message;
+                    value.mensagem.MessageBase = new AndreBorgesLealException(ex.InnerException.InnerException.Message ?? ex.Message, GetType().FullName).Message;
                     value.mensagem.MessageType = MsgType.ERROR;
                 }
             }
@@ -291,7 +291,7 @@ namespace AndreBorgesLeal.Framework.Models.Entidades
                 {
                     value.mensagem.Code = 17;
                     value.mensagem.Message = MensagemPadrao.Message(17).ToString();
-                    value.mensagem.MessageBase = new FinancasException(ex.InnerException.InnerException.Message ?? ex.Message, GetType().FullName).Message;
+                    value.mensagem.MessageBase = new AndreBorgesLealException(ex.InnerException.InnerException.Message ?? ex.Message, GetType().FullName).Message;
                     value.mensagem.MessageType = MsgType.ERROR;
                 }
             }
@@ -325,7 +325,7 @@ namespace AndreBorgesLeal.Framework.Models.Entidades
                         #endregion
 
                         if (op == Crud.ALTERAR)
-                            db.Entry(entity).State = System.Data.Entity.EntityState.Modified
+                            db.Entry(entity).State = System.Data.Entity.EntityState.Modified;
                         else
                             this.db.Set<E>().Add(entity);
                         db.SaveChanges();
@@ -368,7 +368,7 @@ namespace AndreBorgesLeal.Framework.Models.Entidades
                 {
                     value.mensagem.Code = 17;
                     value.mensagem.Message = MensagemPadrao.Message(17).ToString();
-                    value.mensagem.MessageBase = new FinancasException(ex.InnerException.InnerException.Message ?? ex.Message, GetType().FullName).Message;
+                    value.mensagem.MessageBase = new AndreBorgesLealException(ex.InnerException.InnerException.Message ?? ex.Message, GetType().FullName).Message;
                     value.mensagem.MessageType = MsgType.ERROR;
                 }
             }
@@ -465,7 +465,7 @@ namespace AndreBorgesLeal.Framework.Models.Entidades
                 {
                     mensagem.Code = 17;
                     mensagem.Message = MensagemPadrao.Message(17).ToString();
-                    mensagem.MessageBase = new FinancasException(ex.InnerException.InnerException.Message ?? ex.Message, GetType().FullName).Message;
+                    mensagem.MessageBase = new AndreBorgesLealException(ex.InnerException.InnerException.Message ?? ex.Message, GetType().FullName).Message;
                     mensagem.MessageType = MsgType.ERROR;
                 }
             }
@@ -558,7 +558,7 @@ namespace AndreBorgesLeal.Framework.Models.Entidades
             {
                 value.mensagem.Code = 17;
                 value.mensagem.Message = MensagemPadrao.Message(17).ToString();
-                value.mensagem.MessageBase = new FinancasException(ex.InnerException.InnerException.Message ?? ex.Message, GetType().FullName).Message;
+                value.mensagem.MessageBase = new AndreBorgesLealException(ex.InnerException.InnerException.Message ?? ex.Message, GetType().FullName).Message;
                 value.mensagem.MessageType = MsgType.ERROR;
             }
 
@@ -589,7 +589,7 @@ namespace AndreBorgesLeal.Framework.Models.Entidades
             {
                 value.mensagem.Code = 17;
                 value.mensagem.Message = MensagemPadrao.Message(17).ToString();
-                value.mensagem.MessageBase = new FinancasException(ex.InnerException.InnerException.Message ?? ex.Message, GetType().FullName).Message;
+                value.mensagem.MessageBase = new AndreBorgesLealException(ex.InnerException.InnerException.Message ?? ex.Message, GetType().FullName).Message;
                 value.mensagem.MessageType = MsgType.ERROR;
             }
 
@@ -622,7 +622,7 @@ namespace AndreBorgesLeal.Framework.Models.Entidades
             {
                 value.mensagem.Code = 17;
                 value.mensagem.Message = MensagemPadrao.Message(17).ToString();
-                value.mensagem.MessageBase = new FinancasException(ex.InnerException.InnerException.Message ?? ex.Message, GetType().FullName).Message;
+                value.mensagem.MessageBase = new AndreBorgesLealException(ex.InnerException.InnerException.Message ?? ex.Message, GetType().FullName).Message;
                 value.mensagem.MessageType = MsgType.ERROR;
             }
 

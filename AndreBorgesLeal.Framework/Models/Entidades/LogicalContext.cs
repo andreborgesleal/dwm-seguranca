@@ -22,5 +22,6 @@ namespace AndreBorgesLeal.Framework.Models.Entidades
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Sistema> Sistemass { get; set; }
         public DbSet<Filtro> Filtros { get; set; }
+        public DbSet<Empresa> Empresas { get; set; }
     }
 }

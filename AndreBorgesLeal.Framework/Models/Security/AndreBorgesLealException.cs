@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace AndreBorgesLeal.Framework.Models.Security
 {
-    public class FinancasException : Exception
+    public class AndreBorgesLealException : Exception
     {
         public static class ErrorMessage
         {
@@ -40,13 +40,13 @@ namespace AndreBorgesLeal.Framework.Models.Security
 
         public Validate Result { get; set; }
 
-        public FinancasException(string message, string type)
+        public AndreBorgesLealException(string message, string type)
             : base(message)
         {
             saveError(this, type);
         }
 
-        public FinancasException(Validate result)
+        public AndreBorgesLealException(Validate result)
             : base()
         {
             this.Result = result;

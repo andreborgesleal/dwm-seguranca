@@ -30,7 +30,7 @@ namespace AndreBorgesLeal.Framework.Models.Control
             }
             catch (Exception ex)
             {
-                throw new Exception(FinancasException.Exception(ex, GetType().FullName, FinancasException.ErrorType.PaginationError));
+                throw new Exception(AndreBorgesLealException.Exception(ex, GetType().FullName, AndreBorgesLealException.ErrorType.PaginationError));
             }
         }
 
@@ -45,7 +45,7 @@ namespace AndreBorgesLeal.Framework.Models.Control
             }
             catch (Exception ex)
             {
-                throw new Exception(FinancasException.Exception(ex, GetType().FullName, FinancasException.ErrorType.PaginationError));
+                throw new Exception(AndreBorgesLealException.Exception(ex, GetType().FullName, AndreBorgesLealException.ErrorType.PaginationError));
             }
         }
 

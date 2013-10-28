@@ -13,7 +13,7 @@ namespace AndreBorgesLeal.Framework.Models.Security
 {
     public class AccessSecurity : Context, ISecurity
     {
-        public Sessao autenticar(string usuario, string senha, int sistemaId)
+        public Validate Autenticar(string usuario, string senha, int sistemaId)
         {
             using (db = this.Create())
             {
@@ -21,7 +21,7 @@ namespace AndreBorgesLeal.Framework.Models.Security
                 Sessao sessao = new Sessao();
                 try
                 {
-                    #region Recupera a empresa
+                    #region Recupera o usuário
                     Usuario usu = (from u in db.Usuarios where u.login.Equals(usuario) && u.senha.Equals(senha) select u).FirstOrDefault();
                     #endregion
 
@@ -33,60 +33,80 @@ namespace AndreBorgesLeal.Framework.Models.Security
                         validate.MessageBase = MensagemPadrao.Message(999).ToString();
                     }
                     #endregion
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    throw new AndreBorgesLealException(ex.Message, GetType().FullName);
+                }
+                catch (Exception ex)
+                {
+                    throw new AndreBorgesLealException(ex.Message, GetType().FullName);
+                }
+                return validate;
+            }
+
+        }
+
+        public Sessao CriarSessao(string usuario, int sistemaId)
+        {
+            using (db = this.Create())
+            {
+                Sessao sessao = new Sessao();
+                try
+                {
+                    #region Recupera a empresa
+                    Usuario usu = (from u in db.Usuarios where u.login.Equals(usuario) select u).FirstOrDefault();
+                    #endregion
 
                     #region insere a sessao
-                    if (validate.Code == 0)
+                    string sessaoId = System.Web.HttpContext.Current.Session.SessionID;
+
+                    Sessao s1 = db.Sessaos.Find(sessaoId);
+
+                    if (s1 == null)
                     {
-                        string sessaoId = Guid.NewGuid().ToString();
+                        sessao.sessaoId = sessaoId;
+                        sessao.sistemaId = sistemaId;
+                        sessao.usuarioId = usu.usuarioId;
+                        sessao.empresaId = usu.empresaId;
+                        sessao.dt_criacao = DateTime.Now;
+                        sessao.dt_atualizacao = DateTime.Now;
+                        sessao.isOnline = "S";
 
-                        Sessao s1 = db.Sessaos.Find(sessaoId);
-
-                        if (s1 == null)
-                        {
-                            sessao.sessaoId = sessaoId;
-                            sessao.sistemaId = sistemaId;
-                            sessao.usuarioId = usu.usuarioId;
-                            sessao.empresaId = usu.empresaId;
-                            sessao.dt_criacao = DateTime.Now;
-                            sessao.dt_atualizacao = DateTime.Now;
-                            sessao.isOnline = "S";
-
-                            db.Sessaos.Add(sessao);
-                        }
-                        else
-                        {
-                            sessao = db.Sessaos.Find(sessaoId);
-
-                            sessao.dt_desativacao = null;
-                            sessao.sistemaId = sistemaId;
-                            sessao.usuarioId = usu.usuarioId;
-                            sessao.empresaId = usu.empresaId;
-                            sessao.dt_criacao = DateTime.Now;
-                            sessao.dt_atualizacao = DateTime.Now;
-                            sessao.isOnline = "S";
-
-                            db.Entry(sessao).State = EntityState.Modified;
-                        }
-
-                        db.SaveChanges();
-                        return sessao;
+                        db.Sessaos.Add(sessao);
                     }
+                    else
+                    {
+                        sessao = db.Sessaos.Find(sessaoId);
+
+                        sessao.dt_desativacao = null;
+                        sessao.sistemaId = sistemaId;
+                        sessao.usuarioId = usu.usuarioId;
+                        sessao.empresaId = usu.empresaId;
+                        sessao.dt_criacao = DateTime.Now;
+                        sessao.dt_atualizacao = DateTime.Now;
+                        sessao.isOnline = "S";
+
+                        db.Entry(sessao).State = EntityState.Modified;
+                    }
+
+                    db.SaveChanges();
                     #endregion
                 }
                 catch (DbEntityValidationException ex)
                 {
-                    throw new FinancasException(ex.Message, GetType().FullName);
+                    throw new AndreBorgesLealException(ex.Message, GetType().FullName);
                 }
                 catch (Exception ex)
                 {
-                    throw new FinancasException(ex.Message, GetType().FullName);
+                    throw new AndreBorgesLealException(ex.Message, GetType().FullName);
                 }
                 return sessao;
             }
 
         }
 
-        public bool validarSessao(string sessionId)
+        public bool ValidarSessao(string sessionId)
         {
             try
             {
@@ -113,7 +133,7 @@ namespace AndreBorgesLeal.Framework.Models.Security
             }
             catch (Exception ex)
             {
-                FinancasException.saveError(ex, GetType().FullName);
+                AndreBorgesLealException.saveError(ex, GetType().FullName);
                 return false;
             }
 
@@ -139,7 +159,7 @@ namespace AndreBorgesLeal.Framework.Models.Security
             }
             catch (Exception ex)
             {
-                FinancasException.saveError(ex, GetType().FullName);
+                AndreBorgesLealException.saveError(ex, GetType().FullName);
             }
         }
 
@@ -159,6 +179,5 @@ namespace AndreBorgesLeal.Framework.Models.Security
             }
 
         }
-
     }
 }

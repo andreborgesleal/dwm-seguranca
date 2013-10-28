@@ -9,9 +9,9 @@ namespace AndreBorgesLeal.Framework.Models.Contratos
 {
     public interface ISecurity
     {
-        Validate autenticar(string usuario, string senha, string sistemaId);
-        Sessao CriarSessao(string usuario, string sistemaId);
-        bool validarSessao(string sessionId);
+        Validate Autenticar(string usuario, string senha, int sistemaId);
+        Sessao CriarSessao(string usuario, int sistemaId);
+        bool ValidarSessao(string sessionId);
         void EncerrarSessao(string sessionId);
     }
 }

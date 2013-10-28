@@ -12,49 +12,6 @@ namespace AndreBorgesLeal.Framework.Controllers
 {
     public class HomeController : SuperController
     {
-        public ActionResult Index()
-        {
-            return View(new EmpresaRepository());
-        }
-
-        [HttpPost]
-        public ActionResult Index(EmpresaRepository value)
-        {
-            if (ModelState.IsValid)
-                try
-                {
-                    EmpresaSecurity login = new EmpresaSecurity();
-                    value.mensagem = login.autenticar(value.email, value.senha);
-                    if (value.mensagem.Code > 0)
-                        throw new FinancasException(value.mensagem);
-                    return RedirectToAction("Principal");
-                }
-                catch (FinancasException ex)
-                {
-                    ModelState.AddModelError("", value.mensagem.Message);
-                    Error(value.mensagem.Message);
-                }
-                catch (Exception ex)
-                {
-                    FinancasException.saveError(ex, GetType().FullName);
-                    ModelState.AddModelError("", MensagemPadrao.Message(17).ToString());
-                    Error(MensagemPadrao.Message(17).ToString());
-                }
-            else
-            {
-                value = new EmpresaRepository();
-                value.mensagem = new Validate()
-                {
-                    Code = 999,
-                    Message = MensagemPadrao.Message(999).ToString(),
-                    MessageBase = MensagemPadrao.Message(999).ToString()
-                };
-                Error(value.mensagem.Message);
-            }
-
-            return View(value);
-        }
-
         public ActionResult Principal()
         {
             System.Web.HttpContext.Current.Response.Cache.SetExpires(DateTime.UtcNow.AddDays(-1));

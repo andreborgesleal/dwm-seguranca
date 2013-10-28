@@ -25,7 +25,7 @@ namespace AndreBorgesLeal.Framework.Controllers
         protected bool AccessDenied(string sessionId)
         {
             AccessSecurity l = new AccessSecurity();
-            return !l.validarSessao(sessionId);
+            return !l.ValidarSessao(sessionId);
         }
         #endregion
 
@@ -150,12 +150,12 @@ namespace AndreBorgesLeal.Framework.Controllers
 
                     value = model.Insert(value);
                     if (value.mensagem.Code > 0)
-                        throw new FinancasException(value.mensagem);
+                        throw new AndreBorgesLealException(value.mensagem);
 
                     Success("Registro incluído com sucesso");
                     return RedirectToAction("Create");
                 }
-                catch (FinancasException ex)
+                catch (AndreBorgesLealException ex)
                 {
                     ModelState.AddModelError(ex.Result.Field, ex.Result.Message); // mensagem amigável ao usuário
                     if (ex.Result.MessageType == MsgType.ERROR)
@@ -165,7 +165,7 @@ namespace AndreBorgesLeal.Framework.Controllers
                 }
                 catch (Exception ex)
                 {
-                    FinancasException.saveError(ex, GetType().FullName);
+                    AndreBorgesLealException.saveError(ex, GetType().FullName);
                     ModelState.AddModelError("", MensagemPadrao.Message(17).ToString()); // mensagem amigável ao usuário
                     Error(ex.Message); // Mensagem em inglês com a descrição detalhada do erro e fica no topo da tela
                 }
@@ -199,12 +199,12 @@ namespace AndreBorgesLeal.Framework.Controllers
 
                     value = model.Update(value);
                     if (value.mensagem.Code > 0)
-                        throw new FinancasException(value.mensagem);
+                        throw new AndreBorgesLealException(value.mensagem);
 
                     Success("Registro alterado com sucesso");
                     return RedirectToAction("Edit", value);
                 }
-                catch (FinancasException ex)
+                catch (AndreBorgesLealException ex)
                 {
                     ModelState.AddModelError(ex.Result.Field, ex.Result.Message); // mensagem amigável ao usuário
                     if (ex.Result.MessageType == MsgType.ERROR)
@@ -214,7 +214,7 @@ namespace AndreBorgesLeal.Framework.Controllers
                 }
                 catch (Exception ex)
                 {
-                    FinancasException.saveError(ex, GetType().FullName);
+                    AndreBorgesLealException.saveError(ex, GetType().FullName);
                     ModelState.AddModelError("", MensagemPadrao.Message(17).ToString()); // mensagem amigável ao usuário
                     Error(ex.Message); // Mensagem em inglês com a descrição detalhada do erro e fica no topo da tela
                 }
@@ -249,12 +249,12 @@ namespace AndreBorgesLeal.Framework.Controllers
 
                     value = model.Delete(value);
                     if (value.mensagem.Code > 0)
-                        throw new FinancasException(value.mensagem);
+                        throw new AndreBorgesLealException(value.mensagem);
 
                     Success("Registro excluído com sucesso");
                     return RedirectToAction("Browse");
                 }
-                catch (FinancasException ex)
+                catch (AndreBorgesLealException ex)
                 {
                     ModelState.AddModelError(ex.Result.Field, ex.Result.Message); // mensagem amigável ao usuário
                     if (ex.Result.MessageType == MsgType.ERROR)
@@ -264,7 +264,7 @@ namespace AndreBorgesLeal.Framework.Controllers
                 }
                 catch (Exception ex)
                 {
-                    FinancasException.saveError(ex, GetType().FullName);
+                    AndreBorgesLealException.saveError(ex, GetType().FullName);
                     ModelState.AddModelError("", MensagemPadrao.Message(17).ToString()); // mensagem amigável ao usuário
                     Error(ex.Message); // Mensagem em inglês com a descrição detalhada do erro e fica no topo da tela
                 }
@@ -384,15 +384,15 @@ namespace AndreBorgesLeal.Framework.Controllers
         {
             try
             {
-                EmpresaSecurity empresa = new EmpresaSecurity();
+                AccessSecurity empresa = new AccessSecurity();
                 FiltroModel model = new FiltroModel();
                 FiltroRepository f = values.First();
                 int empresaId = empresa.getSessaoCorrente().empresaId;
                 result = model.SaveCollection(values, info => info.report == f.report && info.controller == f.controller && info.action == f.action && info.empresaId == empresaId);
                 if (result.Code > 0)
-                    throw new FinancasException(result);
+                    throw new AndreBorgesLealException(result);
             }
-            catch (FinancasException ex)
+            catch (AndreBorgesLealException ex)
             {
                 ModelState.AddModelError(ex.Result.Field, ex.Result.Message); // mensagem amigável ao usuário
                 if (ex.Result.MessageType == MsgType.ERROR)
@@ -402,7 +402,7 @@ namespace AndreBorgesLeal.Framework.Controllers
             }
             catch (Exception ex)
             {
-                FinancasException.saveError(ex, GetType().FullName);
+                AndreBorgesLealException.saveError(ex, GetType().FullName);
                 ModelState.AddModelError("", MensagemPadrao.Message(17).ToString()); // mensagem amigável ao usuário
                 Error(ex.Message); // Mensagem em inglês com a descrição detalhada do erro e fica no topo da tela
             }
@@ -440,7 +440,7 @@ namespace AndreBorgesLeal.Framework.Controllers
         public FileResult _PDF(string export, string fileName, ReportRepository<R> report, ReportParameter[] p,
                                 string PageWidth = "21cm", string PageHeight = "29,7cm", params object[] param)
         {
-            p[0] = new ReportParameter("empresa", new EmpresaSecurity().getEmpresa().nome, false);
+            p[0] = new ReportParameter("empresa", new AccessSecurity().getEmpresa().nome, false);
 
             LocalReport relatorio = new LocalReport();
             relatorio.ReportPath = Server.MapPath("~/App_Data/rdlc/" + fileName + ".rdlc");
@@ -595,11 +595,11 @@ namespace AndreBorgesLeal.Framework.Controllers
 
                     value = model.Insert(value);
                     if (value.mensagem.Code > 0)
-                        throw new FinancasException(value.mensagem);
+                        throw new AndreBorgesLealException(value.mensagem);
 
                     Success("Registro incluído com sucesso");
                 }
-                catch (FinancasException ex)
+                catch (AndreBorgesLealException ex)
                 {
 
                     ModelState.AddModelError(ex.Result.Field, ex.Result.Message); // mensagem amigável ao usuário
@@ -610,7 +610,7 @@ namespace AndreBorgesLeal.Framework.Controllers
                 }
                 catch (Exception ex)
                 {
-                    FinancasException.saveError(ex, GetType().FullName);
+                    AndreBorgesLealException.saveError(ex, GetType().FullName);
                     ModelState.AddModelError("", MensagemPadrao.Message(17).ToString()); // mensagem amigável ao usuário
                     Error(ex.Message); // Mensagem em inglês com a descrição detalhada do erro e fica no topo da tela
                 }
@@ -684,11 +684,11 @@ namespace AndreBorgesLeal.Framework.Controllers
 
                     value = model.Update(value);
                     if (value.mensagem.Code > 0)
-                        throw new FinancasException(value.mensagem);
+                        throw new AndreBorgesLealException(value.mensagem);
 
                     Success("Registro alterado com sucesso");
                 }
-                catch (FinancasException ex)
+                catch (AndreBorgesLealException ex)
                 {
                     ModelState.AddModelError(ex.Result.Field, ex.Result.Message); // mensagem amigável ao usuário
                     if (ex.Result.MessageType == MsgType.ERROR)
@@ -698,7 +698,7 @@ namespace AndreBorgesLeal.Framework.Controllers
                 }
                 catch (Exception ex)
                 {
-                    FinancasException.saveError(ex, GetType().FullName);
+                    AndreBorgesLealException.saveError(ex, GetType().FullName);
                     ModelState.AddModelError("", MensagemPadrao.Message(17).ToString()); // mensagem amigável ao usuário
                     Error(ex.Message); // Mensagem em inglês com a descrição detalhada do erro e fica no topo da tela
                 }
@@ -758,11 +758,11 @@ namespace AndreBorgesLeal.Framework.Controllers
 
                     value = model.Delete(value);
                     if (value.mensagem.Code > 0)
-                        throw new FinancasException(value.mensagem);
+                        throw new AndreBorgesLealException(value.mensagem);
 
                     Success("Registro excluído com sucesso");
                 }
-                catch (FinancasException ex)
+                catch (AndreBorgesLealException ex)
                 {
                     ModelState.AddModelError(ex.Result.Field, ex.Result.Message); // mensagem amigável ao usuário
                     if (ex.Result.MessageType == MsgType.ERROR)
@@ -772,7 +772,7 @@ namespace AndreBorgesLeal.Framework.Controllers
                 }
                 catch (Exception ex)
                 {
-                    FinancasException.saveError(ex, GetType().FullName);
+                    AndreBorgesLealException.saveError(ex, GetType().FullName);
                     ModelState.AddModelError("", MensagemPadrao.Message(17).ToString()); // mensagem amigável ao usuário
                     Error(ex.Message); // Mensagem em inglês com a descrição detalhada do erro e fica no topo da tela
                 }
@@ -829,15 +829,15 @@ namespace AndreBorgesLeal.Framework.Controllers
 
                 value = model.Insert(value);
                 if (value.mensagem.Code > 0)
-                    throw new FinancasException(value.mensagem);
+                    throw new AndreBorgesLealException(value.mensagem);
             }
-            catch (FinancasException ex)
+            catch (AndreBorgesLealException ex)
             {
                 ModelState.AddModelError(ex.Result.Field, ex.Result.Message); // mensagem amigável ao usuário
             }
             catch (Exception ex)
             {
-                FinancasException.saveError(ex, GetType().FullName);
+                AndreBorgesLealException.saveError(ex, GetType().FullName);
                 ModelState.AddModelError("", MensagemPadrao.Message(17).ToString()); // mensagem amigável ao usuário
             }
 
@@ -1094,7 +1094,7 @@ namespace AndreBorgesLeal.Framework.Controllers
                 }
 
                 if (value.mensagem.Code > 0)
-                    throw new FinancasException(value.mensagem);
+                    throw new AndreBorgesLealException(value.mensagem);
 
                 master.SetItems(model.ListAll());
 
@@ -1105,14 +1105,14 @@ namespace AndreBorgesLeal.Framework.Controllers
 
                 return View(master);
             }
-            catch (FinancasException ex)
+            catch (AndreBorgesLealException ex)
             {
                 ModelState.AddModelError(ex.Result.Field, ex.Result.Message); // mensagem amigável ao usuário
                 Information(ex.Result.MessageBase); // Mensagem em inglês com a descrição detalhada do erro e fica no topo da tela
             }
             catch (Exception ex)
             {
-                FinancasException.saveError(ex, GetType().FullName);
+                AndreBorgesLealException.saveError(ex, GetType().FullName);
                 ModelState.AddModelError("", MensagemPadrao.Message(17).ToString()); // mensagem amigável ao usuário
                 Information(ex.Message); // Mensagem em inglês com a descrição detalhada do erro e fica no topo da tela
             }
