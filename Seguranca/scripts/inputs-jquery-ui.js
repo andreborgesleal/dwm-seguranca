@@ -1,4 +1,9 @@
-﻿function AddMiniCrud(id, text, controller, action, DivId) {
+﻿function ReadAlert(id) {
+    var link = "../Home/ReadAlert?alertaId=" + id;
+    $('#read-alert').load(encodeURI(link));
+}
+
+function AddMiniCrud(id, text, controller, action, DivId) {
     if ($("#" + id).val() != "" && $("#" + id).val() != "0") {
         var link = action + '?value=' + $("#" + id).val() + '&text=' + $("#" + text).val() + "&DivId=" + DivId
         $('#' + id).val("");
@@ -37,8 +42,25 @@ function Refresh(index, pagesize, action, DivId) {
             link += '&' + this.id + '=' + $(this).val()
     });
     
-    link = encodeURI(link + '&noCahce=' + new Date())
+    $('#carregando').css("visibility", "visible");
+    $('#carregando').css("width", "100%");
+    $('#carregando').css("height", "100%");
+    $('#carregando').css("position", "absolute");
+    $('#carregando').css("background-color", "black");
+    $('#carregando').css("filter", "alpha(opacity=60)");
+    $('#carregando').css("opacity", "0.6");
+    $('#carregando').css("left", "0%");
+    $('#carregando').css("top", "0%");
+
+    link = encodeURI(link + '&noCahce=' + new Date());
+
     $('#' + DivId).load(link);
+    $( document ).ajaxSuccess(function (event, xhr, settings) {
+        $('#carregando').css("visibility", "hidden");
+        $('#carregando').css("height", "0px");
+        $('#carregando').css("margin-top", "0%");
+        $('#carregando').css("margin-left", "0%");
+    })
 }
 
 function selecionaPdf(obj, controller, action) {
@@ -134,16 +156,29 @@ function showLookup(lovModal, DivId) {
     var divLov = "div-lov";
     if (DivId != "" && DivId != "undefined" && DivId != undefined && DivId != null)
         divLov = DivId;
+
+    $('#carregando').css("visibility", "visible");
+    $('#carregando').css("width", "100%");
+    $('#carregando').css("height", "100%");
+    $('#carregando').css("position", "absolute");
+    $('#carregando').css("background-color", "black");
+    $('#carregando').css("filter", "alpha(opacity=60)");
+    $('#carregando').css("opacity", "0.6");
+    $('#carregando').css("left", "0%");
+    $('#carregando').css("top", "0%");
+
     $.ajax({
         type: "GET",
         url: "../Home/" + lovModal,
         data: {
             index: 0,
-            pageSize: 50
+            pageSize: 50,
+            hoje: new Date()
         },
         success: function (data) {
             $('#' + divLov).html(data);
             $('#msgs').html("");
+            $('#carregando').css("visibility", "hidden");
         }
     });
 }

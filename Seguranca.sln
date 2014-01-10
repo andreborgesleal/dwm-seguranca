@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seguranca", "Seguranca\Seguranca.csproj", "{66C95779-E1CF-4DEF-B17B-537AA089DE96}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App_Dominio", "..\App_Dominio\App_Dominio\App_Dominio\App_Dominio.csproj", "{3FFAF7B0-E293-489C-80DE-0C0AC24CF8E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{66C95779-E1CF-4DEF-B17B-537AA089DE96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66C95779-E1CF-4DEF-B17B-537AA089DE96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66C95779-E1CF-4DEF-B17B-537AA089DE96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FFAF7B0-E293-489C-80DE-0C0AC24CF8E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FFAF7B0-E293-489C-80DE-0C0AC24CF8E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FFAF7B0-E293-489C-80DE-0C0AC24CF8E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FFAF7B0-E293-489C-80DE-0C0AC24CF8E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
