@@ -1,0 +1,105 @@
+﻿@using Seguranca.Models.Repositories
+@using Seguranca.Models.Entidades
+@using App_Dominio.Repositories
+@using Seguranca.Models.Enumeracoes
+@model Seguranca.Models.Repositories.GrupoViewModel
+@{
+    ViewBag.Title = "Segurança";
+
+}
+
+
+@using (Html.BeginForm("Delete", "Grupos", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.HiddenFor(m => m.sistemaId)
+    @Html.HiddenFor(m => m.grupoId)
+    @Html.HiddenFor(m => m.empresaId)
+    @Html.HiddenFor(m => m.situacao)
+    @Html.HiddenFor(m => m.descricao)
+    
+    <div class="panel panel-default" style="margin-top: 10px">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                Grupo <small>Edição de grupo</small>
+            </h2>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <blockquote>
+                        <p>
+                            Edição de Grupos
+                        </p> <small>Preencher os campos abaixo e depois clicar no botão "Salvar"</small>
+                    </blockquote>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-top: 20px">
+                        @Html.ValidationSummary(false)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.descricao, "Descrição*", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            <div class="input-group col-md-10">
+                                @Html.TextBoxFor(m => m.descricao, new { @class = "form-control input-sm", @placeholder = "descrição", @disabled = "disable" })<br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.situacao, "Situação*", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            <div class="input-group col-md-4">
+                                @Html.DropDownListFor(m => m.situacao, new BindDropDownList().Situacao("Selecione...", ""), new { @class = "form-control input-sm", @disabled = "disable" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.sistemaId, "Sistema *", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            <div class="input-group col-md-4">
+                                @Html.DropDownListFor(m => m.sistemaId, new BindDropDownList().Sistema("Selecione...", ""), new { @class = "form-control input-sm", @disabled = "disable" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-md-8">
+                    @Html.Partial("_defaultListButtons",
+                        new List<ButtonRepository>
+                        {
+                            new ButtonRepository() {    linkText = "Excluir",
+                                                        actionName = "",
+                                                        controllerName = "",
+                                                        buttonType = "submit"
+                                                    } ,
+                            new ButtonRepository() {    linkText = "Cancelar",
+                                                        actionName = "Browse",
+                                                        controllerName = "Grupos",
+                                                        buttonType = "link"
+                                                    }
+                        })
+                </div>
+                <div class="col-md-offset-4">
+                    ( * ) - Campo de preenchimento obrigatório
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

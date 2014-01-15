@@ -40,8 +40,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="App_Data\logs\" />
-    <Folder Include="Models\Persistence\" />
-    <Folder Include="Models\Repositories\" />
     <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
@@ -50,6 +48,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\GruposController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
@@ -61,6 +60,8 @@
     <Compile Include="Models\Enumeracoes\SegurancaEnum.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LookupUsuarioModel.cs" />
+    <Compile Include="Models\Persistence\GrupoModel.cs" />
+    <Compile Include="Models\Repositories\GrupoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -260,6 +261,11 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Web.config" />
+    <Content Include="Views\Grupos\List.cshtml" />
+    <Content Include="Views\Grupos\Browse.cshtml" />
+    <Content Include="Views\Grupos\Create.cshtml" />
+    <Content Include="Views\Grupos\Edit.cshtml" />
+    <Content Include="Views\Grupos\Delete.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

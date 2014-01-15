@@ -10,5 +10,8 @@ namespace Seguranca.Models.Entidades
     public class ApplicationContext : App_DominioContext
     {
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Sistema> Sistemas { get; set; }
+        public DbSet<Grupo> Grupos { get; set; }
+        public DbSet<Empresa> Empresas { get; set; }
     }
 }

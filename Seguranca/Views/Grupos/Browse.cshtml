@@ -1,0 +1,41 @@
+﻿@using Seguranca.Models.Repositories
+@using App_Dominio.Repositories
+@model System.Web.Mvc.PagedList<Seguranca.Models.Repositories.GrupoViewModel>
+@{
+    ViewBag.Title = "Segurança";
+    ViewBag.Header = "Grupos";
+}
+<div class="row" style="margin-top: 10px">
+    <div class="col-md-12">
+        <div class="panel panel-default" style="padding: -2px">
+            <div class="panel-heading" style="padding: 0px; height: 50px">
+                @Html.Partial("_Filter", Model)
+
+                <nav class="navbar navbar-default" role="navigation">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                            <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button> <a class="navbar-brand" href="#">Listagem de grupos</a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    </div>
+                </nav>
+
+            </div>
+            <div class="panel-body">
+                <div id="div-list">
+                    @Html.Partial("List", Model)
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="col-lg-offset-11">
+                    @Html.Partial("_defaultListButtons", new List<ButtonRepository> { new ButtonRepository() { linkText = "Incluir", actionName = "Create", controllerName = "Grupos", buttonType = "link" } })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
