@@ -36,6 +36,30 @@ namespace Seguranca.Models.Enumeracoes
 
         }
 
+        public IEnumerable<SelectListItem> Admin(params object[] param)
+        {
+            // params[0] -> cabeçalho (Selecione..., Todos...)
+            // params[1] -> SelectedValue
+            // params[3] -> indica se deve pesquisar somente as areas de atendimento do funcionário (usuário) corrente
+            string cabecalho = param[0].ToString();
+            string selectedValue = param[1].ToString();
+
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                IList<SelectListItem> q = new List<SelectListItem>();
+
+                if (cabecalho != "")
+                    q.Add(new SelectListItem() { Value = "", Text = cabecalho });
+
+                q.Add(new SelectListItem() { Value = "S", Text = "Sim" });
+                q.Add(new SelectListItem() { Value = "N", Text = "Não" });
+
+                return q;
+            }
+
+        }
+
+
         public IEnumerable<SelectListItem> Sistema(params object[] param)
         {
             // params[0] -> cabeçalho (Selecione..., Todos...)
@@ -44,6 +68,8 @@ namespace Seguranca.Models.Enumeracoes
             string cabecalho = param[0].ToString();
             string selectedValue = param[1].ToString();
 
+            EmpresaSecurity<SecurityContext> security = new EmpresaSecurity<SecurityContext>();
+            Sessao sessaoCorrente = security.getSessaoCorrente();
 
             using (ApplicationContext db = new ApplicationContext())
             {
@@ -54,7 +80,8 @@ namespace Seguranca.Models.Enumeracoes
 
 
 
-                q = q.Union(from a in db.Sistemas.AsEnumerable()
+                q = q.Union(from grupo in db.Grupos.AsEnumerable() join a in db.Sistemas.AsEnumerable() on grupo.sistemaId equals a.sistemaId
+                            where grupo.empresaId == sessaoCorrente.empresaId
                             orderby a.nome
                             select new SelectListItem()
                             {

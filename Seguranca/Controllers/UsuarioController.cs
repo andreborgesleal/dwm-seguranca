@@ -42,6 +42,22 @@ namespace Seguranca.Controllers
         }
         #endregion
 
+        #region edit
+        [AuthorizeFilter]
+        public ActionResult Edit(int usuarioId)
+        {
+            return _Edit(new UsuarioRepository() { usuarioId = usuarioId });
+        }
+        #endregion
+
+        #region Delete
+        [AuthorizeFilter]
+        public ActionResult Delete(int usuarioId)
+        {
+            return Edit(usuarioId);
+        }
+        #endregion
+
         #region Typeahead
         public JsonResult GetNames(string term)
         {

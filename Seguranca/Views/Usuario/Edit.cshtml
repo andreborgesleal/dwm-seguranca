@@ -1,0 +1,138 @@
+﻿@using App_Dominio.Repositories
+@using Seguranca.Models.Enumeracoes
+@model App_Dominio.Repositories.UsuarioRepository
+@{
+    ViewBag.Title = "Segurança";
+
+}
+@using (Html.BeginForm("Edit", "Usuario", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <div class="panel panel-default" style="margin-top: 10px">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                Usuario <small>Inclusão de usuarios</small>
+            </h2>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <blockquote>
+                        <p>
+                            Inclusão de Usuarios
+                        </p> <small>Preencher os campos abaixo e depois clicar no botão "Salvar"</small>
+                    </blockquote>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group" style="margin-top: 20px">
+                        @Html.ValidationSummary(false)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.login, "Login*", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            <div class="input-group col-md-4">
+                                @Html.TextBoxFor(m => m.login, new { @class = "form-control input-sm", @placeholder = "E-mail do Usuário" })<br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.nome, "Nome*", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            <div class="input-group col-md-4">
+                                @Html.TextBoxFor(m => m.nome, new { @class = "form-control input-sm" })<br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.senha, "Senha*", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            <div class="input-group col-md-4">
+                                @Html.PasswordFor(m => m.senha, new { @class = "form-control input-sm" })<br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.confirmacaoSenha, "Confirmação de Senha*", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            <div class="input-group col-md-4">
+                                @Html.PasswordFor(m => m.confirmacaoSenha, new { @class = "form-control input-sm" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.situacao, "Situação*", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            <div class="input-group col-md-4">
+                                @Html.DropDownListFor(m => m.situacao, new BindDropDownList().Situacao("Selecione...", ""), new { @class = "form-control input-sm" })<br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.isAdmin, "Adminstrador*", new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            <div class="input-group col-md-4">
+                                @Html.DropDownListFor(m => m.isAdmin, new BindDropDownList().Admin("Selecione...", ""), new { @class = "form-control input-sm" })<br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-md-8">
+                    @Html.Partial("_defaultListButtons",
+                        new List<ButtonRepository>
+                        {
+                            new ButtonRepository() {    linkText = "Salvar",
+                                                        actionName = "",
+                                                        controllerName = "",
+                                                        buttonType = "submit"
+                                                    } ,
+                            new ButtonRepository() {    linkText = "Cancelar",
+                                                        actionName = "Browse",
+                                                        controllerName = "Usuario",
+                                                        buttonType = "link"
+                                                    }
+                        })
+                </div>
+                <div class="col-md-offset-4">
+                    ( * ) - Campo de preenchimento obrigatório
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
