@@ -7,8 +7,6 @@ using App_Dominio.Component;
 using Seguranca.Models.Repositories;
 using Seguranca.Models.Entidades;
 using App_Dominio.Enumeracoes;
-using System.Data.Entity.SqlServer;
-using App_Dominio.Models;
 using App_Dominio.Security;
 
 namespace Seguranca.Models.Persistence
@@ -87,7 +85,7 @@ namespace Seguranca.Models.Persistence
                         empresaId = grup.empresaId,
                         sistemaId = grup.sistemaId,
                         situacao = grup.situacao,
-                        nome_sistema = sis.descricao,
+                        nome_sistema = sis.nome,
                         PageSize = pageSize,
                         TotalCount = (from grup1 in db.Grupos
                                       join sis1 in db.Sistemas on grup1.sistemaId equals sis1.sistemaId

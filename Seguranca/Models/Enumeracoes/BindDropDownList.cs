@@ -68,5 +68,37 @@ namespace Seguranca.Models.Enumeracoes
 
 
         }
+
+        public IEnumerable<SelectListItem> Grupo(params object[] param)
+        {
+            // params[0] -> cabeçalho (Selecione..., Todos...)
+            // params[1] -> SelectedValue
+            string cabecalho = param[0].ToString();
+            string selectedValue = param[1].ToString();
+
+            using (SecurityContext db = new SecurityContext())
+            {
+                IList<SelectListItem> q = new List<SelectListItem>();
+
+                Sessao sessaoCorrente = new EmpresaSecurity<SecurityContext>()._getSessaoCorrente();
+
+                if (cabecalho != "")
+                    q.Add(new SelectListItem() { Value = "", Text = cabecalho });
+
+                q = q.Union(from a in db.Grupos.AsEnumerable()
+                            where a.empresaId == sessaoCorrente.empresaId
+                            orderby a.descricao
+                            select new SelectListItem()
+                            {
+                                Value = a.grupoId.ToString(),
+                                Text = a.descricao,
+                                Selected = (selectedValue != "" ? a.descricao.Equals(selectedValue) : false)
+                            }).ToList();
+
+                return q;
+            }
+
+
+        }
     }
 }

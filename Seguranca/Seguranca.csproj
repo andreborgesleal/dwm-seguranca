@@ -61,6 +61,10 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LookupUsuarioModel.cs" />
     <Compile Include="Models\Persistence\GrupoModel.cs" />
+    <Compile Include="Models\Persistence\GrupoTransacaoModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Models\Repositories\GrupoTransacaoViewModel.cs" />
     <Compile Include="Models\Repositories\GrupoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -110,7 +114,6 @@
     <Content Include="Content\logs\HtmlPage1.html" />
     <Content Include="Content\Site-Full-Hd.css" />
     <Content Include="Content\Site.css" />
-    <Content Include="favicon.ico" />
     <Content Include="favicon.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -223,6 +226,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <None Include="Scripts\_references.js" />
+    <Content Include="Scripts\sql\seguranca.sql" />
     <Content Include="Scripts\á.htm" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
