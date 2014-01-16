@@ -31,15 +31,15 @@
     string name = "btn" + b.linkText;
     if (b.buttonType.Equals("submit") && b.javaScriptFunction != null && b.javaScriptFunction != "")
     {
-        <button id="@name" type="submit" class="btn btn-success" onclick="return @b.javaScriptFunction">@b.linkText</button><span>&nbsp;</span>
+        <button id="@name" type="submit" class="btn btn-default" onclick="return @b.javaScriptFunction">@b.linkText</button><span>&nbsp;</span>
     }
     else if (b.buttonType.Equals("submit"))
     {
-        <button id="@name" type="submit" class="btn btn-success">@b.linkText</button><span>&nbsp;</span>
+        <button id="@name" type="submit" class="btn btn-default">@b.linkText</button><span>&nbsp;</span>
     }
     else if (b.buttonType.Equals("link"))
     {
-        @Html.ActionLink(b.linkText, b.actionName, b.controllerName, null, new { @class = "btn btn-default" })<span>&nbsp;</span>
+        @Html.ActionLink(b.linkText, b.actionName, b.controllerName, null, new { @class = "btn btn-primary" })<span>&nbsp;</span>
     }
     else if (b.buttonType.Equals("modal"))
     {
