@@ -78,7 +78,7 @@ namespace Seguranca.Models.Persistence
 
             string _descricao = param != null && param.Count() > 0 && param[0] != null ? param[0].ToString() : null;
             return (from grup in db.Grupos join sis in db.Sistemas on grup.sistemaId equals sis.sistemaId
-                    where (_descricao == null || String.IsNullOrEmpty(_descricao) || grup.descricao.StartsWith(_descricao.Trim())) && grup.empresaId == sessaoCorrente.empresaId
+                    where (_descricao == null || String.IsNullOrEmpty(_descricao) || grup.descricao.StartsWith(_descricao.Trim()) || sis.descricao.StartsWith(_descricao.Trim())) && grup.empresaId == sessaoCorrente.empresaId
                     orderby sis.nome
                     select new GrupoViewModel
                     {
