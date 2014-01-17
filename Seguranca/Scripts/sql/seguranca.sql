@@ -5,6 +5,7 @@ update Sessao set dt_desativacao = getdate()
 select * from GrupoTransacao
 select * from Transacao
 select * from Sistema
+select * from grupo where empresaId = 1
 
 insert into UsuarioGrupo values(1, 1, 'A')
 

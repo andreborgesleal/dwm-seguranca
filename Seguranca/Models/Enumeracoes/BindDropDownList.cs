@@ -78,18 +78,18 @@ namespace Seguranca.Models.Enumeracoes
                 if (cabecalho != "")
                     q.Add(new SelectListItem() { Value = "", Text = cabecalho });
 
-                q = q.Union(from grupo in db.Grupos.AsEnumerable()
-                            join a in db.Sistemas.AsEnumerable() on grupo.sistemaId equals a.sistemaId
-                            where grupo.empresaId == sessaoCorrente.empresaId
-                            orderby a.nome
+                q = q.Union(from esi in db.EmpresaSistemas.AsEnumerable()
+                            join sis in db.Sistemas.AsEnumerable() on esi.sistemaId equals sis.sistemaId
+                            where esi.empresaId == sessaoCorrente.empresaId
+                            orderby sis.nome
                             select new SelectListItem()
                             {
-                                Value = a.sistemaId.ToString(),
-                                Text = a.nome,
-                                Selected = (selectedValue != "" ? a.descricao.Equals(selectedValue) : false)
-                            }).ToList().Distinct().ToList();
+                               Value = sis.sistemaId.ToString(),
+                               Text = sis.nome,
+                               Selected = (selectedValue != "" ? sis.descricao.Equals(selectedValue) : false)
+                            }).Distinct().ToList();
 
-                return q.Distinct();
+                return q;
             }
 
 

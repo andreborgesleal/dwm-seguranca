@@ -43,7 +43,7 @@ namespace Seguranca.Models.Persistence
 
         public override GrupoTransacao Find(GrupoTransacaoViewModel key)
         {
-            return db.GrupoTransacaos.Find(key.grupoId);
+            return db.GrupoTransacaos.Find(key.grupoId, key.transacaoId);
         }
 
         public override Validate Validate(GrupoTransacaoViewModel value, Crud operation)
@@ -51,6 +51,42 @@ namespace Seguranca.Models.Persistence
             value.mensagem = new Validate() { Code = 0, Message = MensagemPadrao.Message(0).ToString(), MessageType = MsgType.SUCCESS };
 
             return value.mensagem;
+        }
+        #endregion
+    }
+
+    public class ListViewGrupoTransacao : ListViewRepository<GrupoTransacaoViewModel, ApplicationContext>
+    {
+        #region Métodos da classe ListViewRepository
+        public override IEnumerable<GrupoTransacaoViewModel> Bind(int? index, int pageSize = 50, params object[] param)
+        {
+            EmpresaSecurity<SecurityContext> security = new EmpresaSecurity<SecurityContext>();
+            sessaoCorrente = security.getSessaoCorrente();
+
+            int _sistemaId = int.Parse(param[0].ToString());
+            int _grupoId = int.Parse(param[1].ToString());
+
+            return (from tra in db.Transacaos
+                    join sis in db.Sistemas on tra.sistemaId equals sis.sistemaId
+                    join gtr in db.GrupoTransacaos on tra.transacaoId equals gtr.transacaoId into GTR
+                    from gtr in GTR.DefaultIfEmpty()
+                    where  gtr.grupoId == _grupoId && tra.sistemaId == _sistemaId
+                    orderby sis.nome
+                    select new GrupoTransacaoViewModel
+                    {
+                        grupoId = gtr.grupoId,
+                        situacao = gtr.situacao,
+                        nome_sistema = sis.nome,
+                        PageSize = pageSize,
+                        TotalCount = (from grup1 in db.Grupos
+                                      join sis1 in db.Sistemas on grup1.sistemaId equals sis1.sistemaId
+                                      select grup1).Count()
+                    }).Skip((index ?? 0) * pageSize).Take(pageSize).ToList();
+        }
+
+        public override Repository getRepository(Object id)
+        {
+            return new GrupoModel().getObject((GrupoViewModel)id);
         }
         #endregion
     }
