@@ -13,19 +13,19 @@ using App_Dominio.Security;
 
 namespace Seguranca.Models.Persistence
 {
-    public class GrupoTransacaoModel : CrudContext<GrupoTransacao, GrupoTransacaoModel, ApplicationContext>
+    public class GrupoTransacaoModel : CrudContext<GrupoTransacao, GrupoTransacaoViewModel, ApplicationContext>
     {
         #region Métodos da classe CrudContext
         public override GrupoTransacao MapToEntity(GrupoTransacaoViewModel value)
         {
-            GrupoTransacao grupoTransacao = new GrupoTransacao()
+            GrupoTransacao grupo = new GrupoTransacao()
             {
                 grupoId = value.grupoId,
                 transacaoId = value.transacaoId,
                 situacao = value.situacao
             };
 
-            return grupoTransacao;
+            return grupo;
         }
 
         public override GrupoTransacaoViewModel MapToRepository(GrupoTransacao value)
@@ -43,7 +43,7 @@ namespace Seguranca.Models.Persistence
 
         public override GrupoTransacao Find(GrupoTransacaoViewModel key)
         {
-            return db.GrupoTransacaos.Find(key.grupoId, key.transacaoId);
+            return db.GrupoTransacaos.Find(key.grupoId);
         }
 
         public override Validate Validate(GrupoTransacaoViewModel value, Crud operation)

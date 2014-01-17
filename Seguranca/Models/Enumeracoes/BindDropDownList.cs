@@ -78,9 +78,8 @@ namespace Seguranca.Models.Enumeracoes
                 if (cabecalho != "")
                     q.Add(new SelectListItem() { Value = "", Text = cabecalho });
 
-
-
-                q = q.Union(from grupo in db.Grupos.AsEnumerable() join a in db.Sistemas.AsEnumerable() on grupo.sistemaId equals a.sistemaId
+                q = q.Union(from grupo in db.Grupos.AsEnumerable()
+                            join a in db.Sistemas.AsEnumerable() on grupo.sistemaId equals a.sistemaId
                             where grupo.empresaId == sessaoCorrente.empresaId
                             orderby a.nome
                             select new SelectListItem()
@@ -88,9 +87,9 @@ namespace Seguranca.Models.Enumeracoes
                                 Value = a.sistemaId.ToString(),
                                 Text = a.nome,
                                 Selected = (selectedValue != "" ? a.descricao.Equals(selectedValue) : false)
-                            }).ToList();
+                            }).ToList().Distinct().ToList();
 
-                return q;
+                return q.Distinct();
             }
 
 
@@ -103,11 +102,12 @@ namespace Seguranca.Models.Enumeracoes
             string cabecalho = param[0].ToString();
             string selectedValue = param[1].ToString();
 
-            using (SecurityContext db = new SecurityContext())
+            EmpresaSecurity<SecurityContext> security = new EmpresaSecurity<SecurityContext>();
+            Sessao sessaoCorrente = security.getSessaoCorrente();
+
+            using (ApplicationContext db = new ApplicationContext())
             {
                 IList<SelectListItem> q = new List<SelectListItem>();
-
-                Sessao sessaoCorrente = new EmpresaSecurity<SecurityContext>()._getSessaoCorrente();
 
                 if (cabecalho != "")
                     q.Add(new SelectListItem() { Value = "", Text = cabecalho });
