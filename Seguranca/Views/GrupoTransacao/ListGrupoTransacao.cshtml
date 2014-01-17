@@ -1,0 +1,64 @@
+﻿@model System.Web.Mvc.PagedList<Seguranca.Models.Repositories.GrupoTransacaoViewModel>
+@{
+    Layout = null;
+}
+@if (Model.Count > 0)
+{
+    <div class="row Scroll">
+        <div class="col-md-12 column">
+            <table class="table table-hover table-bordered table-condensed" style="cursor: pointer; margin-top: 10px">
+                <caption></caption>
+                <thead style="background-color: #fff1a5">
+                    <tr>
+                        <th></th>
+                        <th>Sistema</th>
+                        <th>Grupo</th>
+                        <th style="text-align: center">Situação</th>
+                    </tr>
+                </thead>
+                @foreach (Seguranca.Models.Repositories.GrupoViewModel grup in Model)
+                {
+                    <tr>
+                        <td style="width: 20%">
+                            <div class="row-clearfix">
+                                <div class="col-md-12">
+                                    @*<div class="btn-group btn-group-xs">
+                                            <button class="btn btn-default btn-xs">Ação</button> <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    @Html.ActionLink("Editar", "Edit", routeValues: new { associadoId = med.codigo})
+                                                </li>
+                                                <li>
+                                                    @Html.ActionLink("Excluir", "Delete", routeValues: new { associadoId = med.codigo})
+                                                </li>
+                                            </ul>
+                                        </div>*@
+                                    <div class="btn-group btn-group-xs">
+                                        <button class="btn btn-sm" type="button">
+                                            <em class="glyphicon glyphicon-edit"></em> @Html.ActionLink("Editar", "Edit", routeValues: new { grupoId = grup.grupoId }, htmlAttributes: new { @style = "text-decoration: none; color: #646464" })
+                                        </button>
+                                        <button class="btn btn-sm" type="button">
+                                            <em class="glyphicon glyphicon-remove"></em> @Html.ActionLink("Excluir", "Delete", routeValues: new { grupoId = grup.grupoId }, htmlAttributes: new { @style = "text-decoration: none; color: #646464" })
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            @grup.nome_sistema
+                        </td>
+                        <td>
+                            @grup.descricao
+                        </td>
+                        <td style="text-align: center">
+                            @grup.situacao
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+    @Html.Partial("Paginacao", Model)
+}
+
+

@@ -7,38 +7,28 @@ using System.Web.Mvc;
 
 namespace Seguranca.Controllers
 {
-    public class GruposController : RootController<GrupoViewModel, GrupoModel>
+    public class GrupoTransacaoController : RootController<GrupoViewModel, GrupoModel>
     {
         public override int _sistema_id() { return (int)Sistema.SEGURANCA; }
 
         public override string getListName()
         {
-            return "Listar Grupos";
+            return "Listar Grupos x Funcionalidades";
         }
 
         #region List
         [AuthorizeFilter]
         public override ActionResult List(int? index, int? pageSize = 50, string descricao = null)
         {
-            ListViewGrupo l = new ListViewGrupo();
-            return this._List(index, pageSize, "Browse", l, descricao);
+            return ListGrupoTransacao(index, PageSize);
         }
-        #endregion
 
-        #region edit
-        [AuthorizeFilter]
-        public ActionResult Edit(int grupoId)
+        public ActionResult ListGrupoTransacao(int? index, int? pageSize = 50, int? sistemaId = null, int? grupoId = null)
         {
-            return _Edit(new GrupoViewModel() { grupoId = grupoId });
+            ListViewGrupoTransacao l = new ListViewGrupoTransacao();
+            return _List(index, pageSize, "Browse", l, sistemaId, grupoId);
         }
-        #endregion
 
-        #region Delete
-        [AuthorizeFilter]
-        public ActionResult Delete(int grupoId)
-        {
-            return Edit(grupoId);
-        }
         #endregion
 
     }

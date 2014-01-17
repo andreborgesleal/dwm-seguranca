@@ -66,22 +66,46 @@ namespace Seguranca.Models.Persistence
             int _sistemaId = int.Parse(param[0].ToString());
             int _grupoId = int.Parse(param[1].ToString());
 
-            return (from tra in db.Transacaos
-                    join sis in db.Sistemas on tra.sistemaId equals sis.sistemaId
-                    join gtr in db.GrupoTransacaos on tra.transacaoId equals gtr.transacaoId into GTR
-                    from gtr in GTR.DefaultIfEmpty()
-                    where  gtr.grupoId == _grupoId && tra.sistemaId == _sistemaId
-                    orderby sis.nome
-                    select new GrupoTransacaoViewModel
-                    {
-                        grupoId = gtr.grupoId,
-                        situacao = gtr.situacao,
-                        nome_sistema = sis.nome,
-                        PageSize = pageSize,
-                        TotalCount = (from grup1 in db.Grupos
-                                      join sis1 in db.Sistemas on grup1.sistemaId equals sis1.sistemaId
-                                      select grup1).Count()
-                    }).Skip((index ?? 0) * pageSize).Take(pageSize).ToList();
+            var pai = from tra in db.Transacaos
+                      join sis in db.Sistemas on tra.sistemaId equals sis.sistemaId
+                      join gtr in db.GrupoTransacaos on tra.transacaoId equals gtr.transacaoId into GTR
+                      from gtr in GTR.DefaultIfEmpty()
+                      join gru in db.Grupos on gtr.grupoId equals gru.grupoId
+                      where gtr.grupoId == _grupoId 
+                            && tra.sistemaId == _sistemaId 
+                            && tra.transacaoId_pai == null
+                      orderby tra.posicao
+                      select new GrupoTransacaoViewModel
+                      {
+                          grupoId = gtr.grupoId,
+                          nome_grupo = gru.descricao,
+                          transacaoId = tra.transacaoId,
+                          nomeCurto = tra.nomeCurto,
+                          nome_funcionalidade = tra.nome,
+                          referencia = tra.referencia,
+                          nome_sistema = sis.nome,
+                          situacao = gtr.situacao,
+                      };
+
+            IList<GrupoTransacaoViewModel> result = new List<GrupoTransacaoViewModel>();
+            //IList<GrupoTransacaoViewModel> value = new List<GrupoTransacaoViewModel>();
+
+            foreach (GrupoTransacaoViewModel tra in pai)
+            {
+                result.Add(tra);
+                Fill(ref result, tra.transacaoId, _sistemaId, _grupoId);
+            }
+
+            for (int i = 0; i <= result.Count; i++)
+                result.ElementAt(i).TotalCount = result.Count;
+
+            //foreach (GrupoTransacaoViewModel tra in result)
+            //{
+            //    tra.TotalCount = result.Count();
+            //    value.Add(tra);
+            //}
+
+            return result.Skip((index ?? 0) * pageSize).Take(pageSize).ToList();
         }
 
         public override Repository getRepository(Object id)
@@ -89,5 +113,39 @@ namespace Seguranca.Models.Persistence
             return new GrupoModel().getObject((GrupoViewModel)id);
         }
         #endregion
+
+        #region Métodos customizados
+        // Utiliza Recursão
+        private void Fill(ref IList<GrupoTransacaoViewModel> value, int _transacaoId_pai, int _sistemaId, int _grupoId)
+        {
+            var fun = from tra in db.Transacaos
+                      join sis in db.Sistemas on tra.sistemaId equals sis.sistemaId
+                      join gtr in db.GrupoTransacaos on tra.transacaoId equals gtr.transacaoId into GTR
+                      from gtr in GTR.DefaultIfEmpty()
+                      join gru in db.Grupos on gtr.grupoId equals gru.grupoId
+                      where gtr.grupoId == _grupoId
+                            && tra.sistemaId == _sistemaId
+                            && tra.transacaoId_pai == _transacaoId_pai
+                      orderby tra.posicao
+                      select new GrupoTransacaoViewModel
+                      {
+                          grupoId = gtr.grupoId,
+                          nome_grupo = gru.descricao,
+                          transacaoId = tra.transacaoId,
+                          nomeCurto = tra.nomeCurto,
+                          nome_funcionalidade = tra.nome,
+                          referencia = tra.referencia,
+                          nome_sistema = sis.nome,
+                          situacao = gtr.situacao,
+                      };
+
+            foreach (GrupoTransacaoViewModel tra in fun)
+            {
+                value.Add(tra);
+                Fill(ref value, tra.transacaoId, _sistemaId, _grupoId);
+            }
+        }
+        #endregion
+
     }
 }
