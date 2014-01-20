@@ -101,6 +101,53 @@ namespace Seguranca.Models.Persistence
         #endregion
     }
 
+    public class SelectListViewGrupo : SelectListViewRepository<GrupoViewModel, ApplicationContext>
+    {
+        #region Métodos da classe SelectListViewRepository
+        public override IEnumerable<GrupoViewModel> Bind(int? index, int pageSize = 50, params object[] param)
+        {
+            EmpresaSecurity<SecurityContext> security = new EmpresaSecurity<SecurityContext>();
+            sessaoCorrente = security.getSessaoCorrente();
+            int? _sistemaId = null;
+            _sistemaId = param != null && param.Count() > 0 && param[0] != null ? int.Parse(param[0].ToString()) : _sistemaId;
+
+            return (from grup in db.Grupos
+                    join sis in db.Sistemas on grup.sistemaId equals sis.sistemaId
+                    where (_sistemaId == null || grup.sistemaId == _sistemaId) && grup.empresaId == sessaoCorrente.empresaId
+                    orderby grup.descricao
+                    select new GrupoViewModel
+                    {
+                        grupoId = grup.grupoId,
+                        descricao = grup.descricao,
+                        empresaId = grup.empresaId,
+                        sistemaId = grup.sistemaId,
+                        situacao = grup.situacao,
+                        nome_sistema = sis.nome,
+                        PageSize = pageSize,
+                        TotalCount = (from grup1 in db.Grupos
+                                      join sis1 in db.Sistemas on grup1.sistemaId equals sis1.sistemaId
+                                      where (_sistemaId == null || grup1.sistemaId == _sistemaId) && grup1.empresaId == sessaoCorrente.empresaId
+                                      select grup1).Count()
+                    }).Skip((index ?? 0) * pageSize).Take(pageSize).ToList();
+        }
+
+        public override Repository getRepository(Object id)
+        {
+            return new GrupoModel().getObject((GrupoViewModel)id);
+        }
+
+        public override string getValue(GrupoViewModel value)
+        {
+            return value.grupoId.ToString();
+        }
+
+        public override string getText(GrupoViewModel value)
+        {
+            return value.descricao;
+        }
+        #endregion
+    }
+
     public class LookupGrupoModel : ListViewGrupo
     {
         public override string action()

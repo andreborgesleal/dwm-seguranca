@@ -10,12 +10,24 @@ using App_Dominio.Enumeracoes;
 using System.Data.Entity.SqlServer;
 using App_Dominio.Models;
 using App_Dominio.Security;
+using System.Data.Entity;
 
 namespace Seguranca.Models.Persistence
 {
-    public class GrupoTransacaoModel : CrudContext<GrupoTransacao, GrupoTransacaoViewModel, ApplicationContext>
+    public class GrupoTransacaoModel : ProcessContext<GrupoTransacao, GrupoTransacaoViewModel, ApplicationContext>
     {
-        #region Métodos da classe CrudContext
+        #region Métodos da classe ProcessContext
+        public override GrupoTransacao ExecProcess(GrupoTransacaoViewModel value)
+        {
+            GrupoTransacao entity = MapToEntity(value);
+            if ((from gtr in db.GrupoTransacaos 
+                 where gtr.grupoId == value.grupoId && gtr.transacaoId == value.transacaoId select gtr).Count() > 0)
+                db.Entry(entity).State = EntityState.Modified;
+            else
+                this.db.Set<GrupoTransacao>().Add(entity);
+            return entity;
+        }
+
         public override GrupoTransacao MapToEntity(GrupoTransacaoViewModel value)
         {
             GrupoTransacao grupo = new GrupoTransacao()
@@ -68,27 +80,27 @@ namespace Seguranca.Models.Persistence
 
             var pai = from tra in db.Transacaos
                       join sis in db.Sistemas on tra.sistemaId equals sis.sistemaId
-                      join gtr in db.GrupoTransacaos on tra.transacaoId equals gtr.transacaoId into GTR
-                      from gtr in GTR.DefaultIfEmpty()
-                      join gru in db.Grupos on gtr.grupoId equals gru.grupoId
-                      where gtr.grupoId == _grupoId 
-                            && tra.sistemaId == _sistemaId 
+                      where tra.sistemaId == _sistemaId 
                             && tra.transacaoId_pai == null
                       orderby tra.posicao
                       select new GrupoTransacaoViewModel
                       {
-                          grupoId = gtr.grupoId,
-                          nome_grupo = gru.descricao,
+                          grupoId = _grupoId,
+                          nome_grupo = (from gtr in db.GrupoTransacaos join gru in db.Grupos on gtr.Grupo equals gru
+                                        where gtr.grupoId == _grupoId && gtr.transacaoId == tra.transacaoId
+                                        select gru.descricao).FirstOrDefault(),
                           transacaoId = tra.transacaoId,
                           nomeCurto = tra.nomeCurto,
                           nome_funcionalidade = tra.nome,
                           referencia = tra.referencia,
                           nome_sistema = sis.nome,
-                          situacao = gtr.situacao,
+                          situacao = (from gtr in db.GrupoTransacaos
+                                      join gru in db.Grupos on gtr.Grupo equals gru
+                                      where gtr.grupoId == _grupoId && gtr.transacaoId == tra.transacaoId
+                                      select gtr.situacao).FirstOrDefault()
                       };
 
             IList<GrupoTransacaoViewModel> result = new List<GrupoTransacaoViewModel>();
-            //IList<GrupoTransacaoViewModel> value = new List<GrupoTransacaoViewModel>();
 
             foreach (GrupoTransacaoViewModel tra in pai)
             {
@@ -96,16 +108,12 @@ namespace Seguranca.Models.Persistence
                 Fill(ref result, tra.transacaoId, _sistemaId, _grupoId);
             }
 
-            for (int i = 0; i <= result.Count; i++)
-                result.ElementAt(i).TotalCount = result.Count;
+            //for (int i = 0; i <= result.Count-1; i++)
+            //    result.ElementAt(i).TotalCount = result.Count;
 
-            //foreach (GrupoTransacaoViewModel tra in result)
-            //{
-            //    tra.TotalCount = result.Count();
-            //    value.Add(tra);
-            //}
+            //return result.Skip((index ?? 0) * pageSize).Take(pageSize).ToList();
 
-            return result.Skip((index ?? 0) * pageSize).Take(pageSize).ToList();
+            return result.ToList();
         }
 
         public override Repository getRepository(Object id)
@@ -120,23 +128,24 @@ namespace Seguranca.Models.Persistence
         {
             var fun = from tra in db.Transacaos
                       join sis in db.Sistemas on tra.sistemaId equals sis.sistemaId
-                      join gtr in db.GrupoTransacaos on tra.transacaoId equals gtr.transacaoId into GTR
-                      from gtr in GTR.DefaultIfEmpty()
-                      join gru in db.Grupos on gtr.grupoId equals gru.grupoId
-                      where gtr.grupoId == _grupoId
-                            && tra.sistemaId == _sistemaId
+                      where tra.sistemaId == _sistemaId
                             && tra.transacaoId_pai == _transacaoId_pai
                       orderby tra.posicao
                       select new GrupoTransacaoViewModel
                       {
-                          grupoId = gtr.grupoId,
-                          nome_grupo = gru.descricao,
+                          grupoId = _grupoId,
+                          nome_grupo = (from gtr in db.GrupoTransacaos join gru in db.Grupos on gtr.Grupo equals gru
+                                        where gtr.grupoId == _grupoId && gtr.transacaoId == tra.transacaoId
+                                        select gru.descricao).FirstOrDefault(),
                           transacaoId = tra.transacaoId,
                           nomeCurto = tra.nomeCurto,
                           nome_funcionalidade = tra.nome,
                           referencia = tra.referencia,
                           nome_sistema = sis.nome,
-                          situacao = gtr.situacao,
+                          situacao = (from gtr in db.GrupoTransacaos
+                                      join gru in db.Grupos on gtr.Grupo equals gru
+                                      where gtr.grupoId == _grupoId && gtr.transacaoId == tra.transacaoId
+                                      select gtr.situacao).FirstOrDefault()
                       };
 
             foreach (GrupoTransacaoViewModel tra in fun)

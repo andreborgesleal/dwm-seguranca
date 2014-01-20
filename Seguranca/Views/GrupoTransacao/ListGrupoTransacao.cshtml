@@ -1,64 +1,125 @@
 ﻿@model System.Web.Mvc.PagedList<Seguranca.Models.Repositories.GrupoTransacaoViewModel>
 @{
     Layout = null;
+    int id = 1;
 }
 @if (Model.Count > 0)
 {
     <div class="row Scroll">
         <div class="col-md-12 column">
-            <table class="table table-hover table-bordered table-condensed" style="cursor: pointer; margin-top: 10px">
+            <table class="table table-hover table-bordered table-condensed" style="cursor: pointer;">
                 <caption></caption>
                 <thead style="background-color: #fff1a5">
                     <tr>
-                        <th></th>
-                        <th>Sistema</th>
-                        <th>Grupo</th>
+                        <th>Funcionalidade</th>
+                        <th>Descrição</th>
+                        <th>Referência</th>
                         <th style="text-align: center">Situação</th>
+                        <th>Ok</th>
+                        <th style="text-align: center">Ação</th>
                     </tr>
                 </thead>
-                @foreach (Seguranca.Models.Repositories.GrupoViewModel grup in Model)
+                @foreach (Seguranca.Models.Repositories.GrupoTransacaoViewModel grup in Model)
                 {
-                    <tr>
-                        <td style="width: 20%">
+                    string _class = grup.referencia == "Barra de Menu" ? "success" : "";
+                    string _span = grup.referencia == "Menu Suspenso" ? "font-weight: bold" : ""; ;
+                    <tr class="@_class">
+                        <td>
+                            <div style="text-indent: @((grup.referencia == "Barra de Menu" ? 0 : grup.referencia == "Menu Suspenso" ? 1 : 2) * 20)px; @_span">
+                                <span class="@_span">@grup.nomeCurto</span>
+                            </div>
+                        </td>
+                        <td>
+                            <span style="@_span">@grup.nome_funcionalidade</span>
+                        </td>
+                        <td>
+                            <span style="@_span">@grup.referencia</span>
+                        </td>
+                        <td style="text-align: center">
+                            @{
+                                IList<SelectListItem> aSituacao = new List<SelectListItem>() {
+                                    new SelectListItem() { Value = "", Text = "Selecione...", Selected = grup.nome_grupo == null},
+                                    new SelectListItem() { Value = "A", Text = "Ativo", Selected = grup.nome_grupo != null && grup.situacao == "A"},
+                                    new SelectListItem() { Value = "D", Text = "Desativado", Selected = grup.nome_grupo != null && grup.situacao == "D"}
+                                };
+                            }
+
+                            @Html.DropDownList("situacao" + id, aSituacao, new { @class = "form-control input-sm" })
+                        </td>
+                        <td style="text-align: center">
+                            @Html.CheckBox("autorizar" + id, @grup.nome_grupo != null)
+                        </td>
+                        <td style="width: 10%">
                             <div class="row-clearfix">
                                 <div class="col-md-12">
-                                    @*<div class="btn-group btn-group-xs">
-                                            <button class="btn btn-default btn-xs">Ação</button> <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"><span class="caret"></span></button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    @Html.ActionLink("Editar", "Edit", routeValues: new { associadoId = med.codigo})
-                                                </li>
-                                                <li>
-                                                    @Html.ActionLink("Excluir", "Delete", routeValues: new { associadoId = med.codigo})
-                                                </li>
-                                            </ul>
-                                        </div>*@
                                     <div class="btn-group btn-group-xs">
-                                        <button class="btn btn-sm" type="button">
-                                            <em class="glyphicon glyphicon-edit"></em> @Html.ActionLink("Editar", "Edit", routeValues: new { grupoId = grup.grupoId }, htmlAttributes: new { @style = "text-decoration: none; color: #646464" })
-                                        </button>
-                                        <button class="btn btn-sm" type="button">
-                                            <em class="glyphicon glyphicon-remove"></em> @Html.ActionLink("Excluir", "Delete", routeValues: new { grupoId = grup.grupoId }, htmlAttributes: new { @style = "text-decoration: none; color: #646464" })
+                                        <button class="btn btn-sm" type="button" onclick="Save('@grup.grupoId', '@grup.transacaoId', '@id')">
+                                            <em class="glyphicon glyphicon-saved"></em> <span style="text-decoration: none; color: #646464">Salvar</span>
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </td>
-                        <td>
-                            @grup.nome_sistema
-                        </td>
-                        <td>
-                            @grup.descricao
-                        </td>
-                        <td style="text-align: center">
-                            @grup.situacao
-                        </td>
                     </tr>
+                    id++;
                 }
             </table>
+
         </div>
     </div>
-    @Html.Partial("Paginacao", Model)
 }
 
+<script type="text/javascript">
+    function Save(grupoId, transacaoId, id) {
+        var link = "Save";
+        var _situacao = "";
+        var _autorizar = "";
 
+        // Recupera os valores dos atributos situação e autorizar
+        _situacao = $("#situacao" + id + " option:selected").val();
+        if ($('#autorizar' + id).is(':checked'))
+            _autorizar = "true";
+        else
+            _autorizar = "false"; 
+
+        if ((_situacao == '' || _situacao == null) && _autorizar == 'true')
+        {
+            ShowMessageAlert("O Campo Situação deve ser selecionado com [Ativo] ou [Desativado] para [Salvar] o registro", "warning");
+            return;
+        }
+
+        link = encodeURI(link + '?_grupoId=' + grupoId + '&_transacaoId=' + transacaoId + '&_situacao=' + _situacao + '&operacao=' + _autorizar) ;
+        link = encodeURI(link + '&noCahce=' + new Date());
+
+        CarregandoIn();
+
+        $.ajax({
+            type: "POST",
+            url: link,
+            contentType: "application/json; charset=utf-8",
+            global: false,
+            async: false,
+            dataType: "json",
+            //data: { _grupoId: grupoId, _transacaoId: transacaoId, _situacao: _situacao, operacao: _autorizar},
+            success: function (jsonObj) {
+                if (jsonObj[0].Key == 0)
+                    ShowMessageAlert(jsonObj[0].Value, "success");
+                else
+                    ShowMessageAlert(jsonObj[0].Value, "danger");
+                $('#carregando').css("visibility", "hidden");
+                $('#carregando').css("height", "0px");
+                $('#carregando').css("margin-top", "0%");
+                $('#carregando').css("margin-left", "0%");
+            },
+            error: function (jqXHR, textStatus) {
+                ShowMessageAlert("Não foi possível executar a operação", "danger");
+                $('#carregando').css("visibility", "hidden");
+                $('#carregando').css("height", "0px");
+                $('#carregando').css("margin-top", "0%");
+                $('#carregando').css("margin-left", "0%");
+            }
+        });
+
+    }
+
+</script>

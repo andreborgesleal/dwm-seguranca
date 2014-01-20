@@ -276,6 +276,7 @@
     <Content Include="Views\Usuario\Edit.cshtml" />
     <Content Include="Views\Usuario\List.cshtml" />
     <Content Include="Views\GrupoTransacao\ListGrupoTransacao.cshtml" />
+    <Content Include="Views\GrupoTransacao\Browse.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

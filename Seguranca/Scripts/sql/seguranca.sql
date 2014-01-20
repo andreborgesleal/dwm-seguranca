@@ -1,15 +1,13 @@
 ﻿use seguranca
 
-update Sessao set dt_desativacao = getdate()
+delete from GrupoTransacao where grupoId = 3 and transacaoId not in (141, 139, 140, 138, 142)
 
-select * from GrupoTransacao
-select * from Transacao
-select * from Sistema
-select * from grupo where empresaId = 1
+select * from sistema
 
-insert into UsuarioGrupo values(1, 1, 'A')
+select * from Transacao where sistemaId = 1 order by transacaoId_pai, posicao
 
-select * from UsuarioGrupo where usuarioId = 1
-select * from grupo where grupoId = 1
+select * from GrupoTransacao where transacaoId = 154
 
-select * from Transacao where sistemaId = 1 and transacaoId_pai = 152 order by posicao
+
+select * from Grupo where empresaId = 1
+
