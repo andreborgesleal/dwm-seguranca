@@ -24,8 +24,13 @@ namespace Seguranca.Controllers
         [AuthorizeFilter]
         public override ActionResult List(int? index, int? pageSize = 50, string descricao = null)
         {
-            ListViewUsuario l = new ListViewUsuario();
-            return this._List(index, pageSize, "Browse", l, descricao);
+            if (ViewBag.ValidateRequest)
+            {
+                ListViewUsuario l = new ListViewUsuario();
+                return this._List(index, pageSize, "Browse", l, descricao);
+            }
+            else
+                return View();
         }
         [AuthorizeFilter]
         public ActionResult ListUsuarioModal(int? index, int? pageSize = 50, string descricao = null)
@@ -37,8 +42,13 @@ namespace Seguranca.Controllers
         [AuthorizeFilter]
         public ActionResult _ListUsuarioModal(int? index, int? pageSize = 50, string descricao = null)
         {
-            LookupUsuarioFiltroModel l = new LookupUsuarioFiltroModel();
-            return this.ListModal(index, pageSize, l, "Usuáiros", descricao);
+            if (ViewBag.ValidateRequest)
+            {
+                LookupUsuarioFiltroModel l = new LookupUsuarioFiltroModel();
+                return this.ListModal(index, pageSize, l, "Usuáiros", descricao);
+            }
+            else
+                return View();
         }
         #endregion
 
@@ -61,7 +71,10 @@ namespace Seguranca.Controllers
         #region Typeahead
         public JsonResult GetNames(string term)
         {
-            return JSonTypeahead(term, new ListViewUsuario());
+            if (ViewBag.ValidateRequest)
+                return JSonTypeahead(term, new ListViewUsuario());
+            else
+                return null;            
         }
         #endregion
 	}

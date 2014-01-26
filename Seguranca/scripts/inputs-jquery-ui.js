@@ -1,24 +1,20 @@
 ﻿function ShowMessageAlert(mensagem, tipo) {
     $('#MsgAlert').html(mensagem);
-    if (tipo == "danger")
-    {
+    if (tipo == "danger") {
         $('#alerta-heading').hide();
         $('#alerta').attr('class', 'alert alert-danger fade in');
     }
-    else if (tipo == "warning")
-    {
+    else if (tipo == "warning") {
         $('#alerta-heading').show();
         $('#alerta').attr('class', 'alert alert-dismissable alert-warning');
     }
-    else
-    {
+    else {
         $('#alerta-heading').hide();
         $('#alerta').attr('class', 'alert alert-dismissable alert-success');
     }
-        
+
     $("#alerta").show();
 }
-
 
 function CarregandoIn() {
     $('#carregando').css("visibility", "visible");
@@ -59,11 +55,22 @@ function GetSelectListOnCascade(thisId, nextId) {
         async: false,
         dataType: "json",
         success: function (jsonObj) {
-            var listItems = "";
-            for (i in jsonObj) {
-                listItems += "<option value='" + jsonObj[i].Value + "'>" + jsonObj[i].Text + "</option>";
+            if (jsonObj[0].Value == "-1") {
+                ShowMessageAlert(jsonObj[0].Text, 'danger');
             }
-            $("#" + nextId).html(listItems);
+            else {
+                var listItems = "";
+                for (i in jsonObj)
+                    listItems += "<option value='" + jsonObj[i].Value + "'>" + jsonObj[i].Text + "</option>";
+                $("#" + nextId).html(listItems);
+            }
+            $('#carregando').css("visibility", "hidden");
+            $('#carregando').css("height", "0px");
+            $('#carregando').css("margin-top", "0%");
+            $('#carregando').css("margin-left", "0%");
+        },
+        error: function (jqXHR, textStatus) {
+            ShowMessageAlert("Não foi possível executar a operação", "danger");
             $('#carregando').css("visibility", "hidden");
             $('#carregando').css("height", "0px");
             $('#carregando').css("margin-top", "0%");
@@ -99,14 +106,14 @@ function foward(pageindex, pagesize, LastPage, action, DivId) {
         pageindex = max;
     else if (pageindex < 0)
         pageindex = 0;
-    
+
     Refresh(pageindex, pagesize, action, DivId);
 }
 
 function Refresh(index, pagesize, action, DivId) {
     var link = action;
     link = encodeURI(link + '?index=' + index + '&pageSize=' + pagesize);
-    
+
     var $inputs = $('#form0 :input');
 
     // not sure if you wanted this, but I thought I'd add it.
@@ -115,7 +122,7 @@ function Refresh(index, pagesize, action, DivId) {
         if (this.id != '' && this.id != null)
             link += '&' + this.id + '=' + $(this).val()
     });
-    
+
     $('#carregando').css("visibility", "visible");
     $('#carregando').css("width", "100%");
     $('#carregando').css("height", "100%");
@@ -125,11 +132,16 @@ function Refresh(index, pagesize, action, DivId) {
     $('#carregando').css("opacity", "0.6");
     $('#carregando').css("left", "0%");
     $('#carregando').css("top", "0%");
-    
+
     link = encodeURI(link + '&noCahce=' + new Date());
 
     $('#' + DivId).load(link);
-    $( document ).ajaxSuccess(function (event, xhr, settings) {
+    $(document).ajaxSuccess(function (event, xhr, settings) {
+        $('#carregando').css("visibility", "hidden");
+        $('#carregando').css("height", "0px");
+        $('#carregando').css("margin-top", "0%");
+        $('#carregando').css("margin-left", "0%");
+    }).error(function () {
         $('#carregando').css("visibility", "hidden");
         $('#carregando').css("height", "0px");
         $('#carregando').css("margin-top", "0%");
@@ -358,7 +370,7 @@ function numeros() {
 
 function numerosPonto() {
 
-    var tecla = event.keyCode;   
+    var tecla = event.keyCode;
 
     if ((tecla > 47 && tecla < 58) || tecla == 46) // numeros de 0 a 9  ou . (ponto)
         return true;
@@ -467,8 +479,8 @@ function fnValidaValor(source) {
         obj.focus();
         return false;
     }
-http://localhost:5592/PlanoConta/Browse
-    FormataNumero(obj);
+    http://localhost:5592/PlanoConta/Browse
+        FormataNumero(obj);
 
     return true;
 }

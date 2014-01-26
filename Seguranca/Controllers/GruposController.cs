@@ -20,8 +20,13 @@ namespace Seguranca.Controllers
         [AuthorizeFilter]
         public override ActionResult List(int? index, int? pageSize = 50, string descricao = null)
         {
-            ListViewGrupo l = new ListViewGrupo();
-            return this._List(index, pageSize, "Browse", l, descricao);
+            if (ViewBag.ValidateRequest)
+            {
+                ListViewGrupo l = new ListViewGrupo();
+                return this._List(index, pageSize, "Browse", l, descricao);
+            }
+            else
+                return View();
         }
         #endregion
 
