@@ -283,7 +283,10 @@
     <Content Include="Views\Usuarios\List.cshtml" />
     <Content Include="Views\GrupoTransacao\ListGrupoTransacao.cshtml" />
     <Content Include="Views\GrupoTransacao\Browse.cshtml" />
-    <Content Include="Views\UsuarioGrupo\ListUsuarioGrupo.cshtml" />
+    <Content Include="Views\Shared\_AcessoNegado.cshtml" />
+    <Content Include="Views\Shared\_AcessoNegadoModal.cshtml" />
+    <Content Include="Views\Home\_Error.cshtml" />
+	<Content Include="Views\UsuarioGrupo\ListUsuarioGrupo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

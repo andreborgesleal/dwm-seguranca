@@ -1,4 +1,4 @@
-﻿@model System.Web.Mvc.PagedList<Seguranca.Models.Repositories.GrupoViewModel>
+﻿@model System.Web.Mvc.PagedList<App_Dominio.Repositories.UsuarioRepository>
 @{
     Layout = null;
 }
@@ -6,17 +6,17 @@
 {
     <div class="row Scroll">
         <div class="col-md-12 column">
-            <table class="table table-hover table-bordered table-condensed" style="cursor: pointer; margin-top: 10px">
+            <table class="table table-hover table-bordered table-condensed" style="cursor: pointer; padding: 0px">
                 <caption></caption>
                 <thead style="background-color: #fff1a5">
                     <tr>
                         <th></th>
-                        <th>Sistema</th>
                         <th>Grupo</th>
-                        <th style="text-align: center">Situação</th>
+                        <th>Nome</th>
+                        <th>Login</th>
                     </tr>
                 </thead>
-                @foreach (Seguranca.Models.Repositories.GrupoViewModel grup in Model)
+                @foreach (App_Dominio.Repositories.UsuarioRepository user in Model)
                 {
                     <tr>
                         <td style="width: 20%">
@@ -35,23 +35,24 @@
                                         </div>*@
                                     <div class="btn-group btn-group-xs">
                                         <button class="btn btn-sm" type="button">
-                                            <em class="glyphicon glyphicon-edit"></em> @Html.ActionLink("Editar", "Edit", routeValues: new { grupoId = grup.grupoId }, htmlAttributes: new { @style = "text-decoration: none; color: #646464" })
+                                            <em class="glyphicon glyphicon-edit"></em> @Html.ActionLink("Editar", "Edit", routeValues: new { usuarioId = user.usuarioId }, htmlAttributes: new { @style = "text-decoration: none; color: #646464" })
                                         </button>
                                         <button class="btn btn-sm" type="button">
-                                            <em class="glyphicon glyphicon-remove"></em> @Html.ActionLink("Excluir", "Delete", routeValues: new { grupoId = grup.grupoId }, htmlAttributes: new { @style = "text-decoration: none; color: #646464" })
+                                            <em class="glyphicon glyphicon-remove"></em> @Html.ActionLink("Excluir", "Delete", routeValues: new { usuarioId = user.usuarioId }, htmlAttributes: new { @style = "text-decoration: none; color: #646464" })
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </td>
                         <td>
-                            @grup.nome_sistema
+                            @user.nome_grupo
                         </td>
                         <td>
-                            @grup.descricao
+                            @user.nome
                         </td>
-                        <td style="text-align: center">
-                            @grup.situacao
+
+                        <td>
+                            @user.login
                         </td>
                     </tr>
                 }
@@ -64,5 +65,3 @@ else
 {
     @Html.Partial("_AcessoNegadoModal")
 }
-
-

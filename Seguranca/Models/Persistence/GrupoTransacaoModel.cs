@@ -140,6 +140,7 @@ namespace Seguranca.Models.Persistence
                           transacaoId = tra.transacaoId,
                           nomeCurto = tra.nomeCurto,
                           nome_funcionalidade = tra.nome,
+                          uri = tra.url,
                           referencia = tra.referencia,
                           nome_sistema = sis.nome,
                           situacao = (from gtr in db.GrupoTransacaos

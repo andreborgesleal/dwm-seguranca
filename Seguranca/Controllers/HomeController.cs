@@ -51,20 +51,26 @@ namespace Seguranca.Controllers
         #region Alerta - segurança
         public ActionResult ReadAlert(int? alertaId)
         {
-            try
-            {
-                EmpresaSecurity<SecurityContext> security = new EmpresaSecurity<SecurityContext>();
-                if (alertaId.HasValue && alertaId > 0)
-                    security.ReadAlert(alertaId.Value);
-            }
-            catch
-            {
-                return null;
-            }
+            if (ViewBag.ValidateRequest)
+                try
+                {
+                    EmpresaSecurity<SecurityContext> security = new EmpresaSecurity<SecurityContext>();
+                    if (alertaId.HasValue && alertaId > 0)
+                        security.ReadAlert(alertaId.Value);
+                }
+                catch
+                {
+                    return null;
+                }
 
             return null;
         }
         #endregion
+
+        public ActionResult _Error()
+        {
+            return View();
+        }
 
         #region Formulário Modal
 
@@ -76,9 +82,14 @@ namespace Seguranca.Controllers
         #endregion
 
         #region Formulário Modal Usuario
+
+        [AuthorizeFilter]
         public ActionResult LovUsuarioModal(int? index, int? pageSize = 50)
         {
-            return this.ListModal(index, pageSize, new LookupUsuarioModel(), "Usuários", null, Seguranca.Models.Enumeracoes.Sistema.SEGURANCA);
+            if (ViewBag.ValidateRequest)
+                return this.ListModal(index, pageSize, new LookupUsuarioModel(), "Usuários", null, Seguranca.Models.Enumeracoes.Sistema.SEGURANCA);
+            else
+                return View();
         }
         #endregion
 
