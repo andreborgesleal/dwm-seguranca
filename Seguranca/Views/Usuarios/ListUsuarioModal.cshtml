@@ -1,7 +1,7 @@
 ﻿@model System.Web.Mvc.PagedList<App_Dominio.Repositories.UsuarioRepository>
 @{
     Layout = null;
-    Model.action = "../Usuario/_ListUsuarioModal";
+    Model.action = "../Usuarios/_ListUsuarioModal";
 }
 
 
@@ -10,7 +10,7 @@
     <div class="col-md-11" style="margin: 0px">
         @Html.Partial("_Filter", Model)
         <div id="div-list" style="padding-top: 0px">
-            @Html.Partial("../Usuario/_ListUsuarioModal", Model)
+            @Html.Partial("../Usuarios/_ListUsuarioModal", Model)
         </div>
     </div>
 </div>

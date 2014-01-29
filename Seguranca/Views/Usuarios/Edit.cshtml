@@ -5,8 +5,16 @@
     ViewBag.Title = "Segurança";
 
 }
-@using (Html.BeginForm("Create", "Usuario", FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Edit", "Usuarios", FormMethod.Post, new { @class = "form-horizontal" }))
 {
+    @Html.HiddenFor(m => m.usuarioId)
+    @Html.HiddenFor(m => m.empresaId)
+    @Html.HiddenFor(m => m.login)
+    @Html.HiddenFor(m => m.nome)
+    @Html.HiddenFor(m => m.dt_cadastro)
+    @Html.HiddenFor(m => m.situacao)
+    @Html.HiddenFor(m => m.isAdmin)
+    
     <div class="panel panel-default" style="margin-top: 10px">
         <div class="panel-heading">
             <h2 class="panel-title">
@@ -48,7 +56,7 @@
                         @Html.LabelFor(m => m.nome, "Nome*", new { @class = "col-md-2 control-label" })
                         <div class="col-md-8">
                             <div class="input-group col-md-4">
-                                @Html.TextBoxFor(m => m.nome, new { @class = "form-control input-sm" })<br />
+                                @Html.TextBoxFor(m => m.nome, new { @class = "form-control input-sm", @style = "text-transform: uppercase;" })<br />
                             </div>
                         </div>
                     </div>
@@ -106,7 +114,7 @@
                     </div>
                 </div>
             </div>
-            
+
 
         </div>
         <div class="panel-footer">
@@ -122,7 +130,7 @@
                                                     } ,
                             new ButtonRepository() {    linkText = "Cancelar",
                                                         actionName = "Browse",
-                                                        controllerName = "Usuario",
+                                                        controllerName = "Usuarios",
                                                         buttonType = "link"
                                                     }
                         })
@@ -134,4 +142,5 @@
         </div>
     </div>
 }
+
 

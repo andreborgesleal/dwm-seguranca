@@ -51,7 +51,8 @@
     <Compile Include="Controllers\GruposController.cs" />
     <Compile Include="Controllers\GrupoTransacaoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Controllers\UsuarioGrupoController.cs" />
+    <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -65,8 +66,10 @@
     <Compile Include="Models\Persistence\GrupoTransacaoModel.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\Persistence\UsuarioGrupoModel.cs" />
     <Compile Include="Models\Repositories\GrupoTransacaoViewModel.cs" />
     <Compile Include="Models\Repositories\GrupoViewModel.cs" />
+    <Compile Include="Models\Repositories\UsuarioGrupoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -260,8 +263,11 @@
     <Content Include="Views\Shared\_LayoutPartial.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Menu.cshtml" />
-    <Content Include="Views\Usuario\ListUsuarioModal.cshtml" />
-    <Content Include="Views\Usuario\_ListUsuarioModal.cshtml" />
+    <Content Include="Views\UsuarioGrupo\Browse.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Usuarios\ListUsuarioModal.cshtml" />
+    <Content Include="Views\Usuarios\_ListUsuarioModal.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Web.config" />
@@ -270,13 +276,14 @@
     <Content Include="Views\Grupos\Create.cshtml" />
     <Content Include="Views\Grupos\Edit.cshtml" />
     <Content Include="Views\Grupos\Delete.cshtml" />
-    <Content Include="Views\Usuario\Browse.cshtml" />
-    <Content Include="Views\Usuario\Create.cshtml" />
-    <Content Include="Views\Usuario\Delete.cshtml" />
-    <Content Include="Views\Usuario\Edit.cshtml" />
-    <Content Include="Views\Usuario\List.cshtml" />
+    <Content Include="Views\Usuarios\Browse.cshtml" />
+    <Content Include="Views\Usuarios\Create.cshtml" />
+    <Content Include="Views\Usuarios\Delete.cshtml" />
+    <Content Include="Views\Usuarios\Edit.cshtml" />
+    <Content Include="Views\Usuarios\List.cshtml" />
     <Content Include="Views\GrupoTransacao\ListGrupoTransacao.cshtml" />
     <Content Include="Views\GrupoTransacao\Browse.cshtml" />
+    <Content Include="Views\UsuarioGrupo\ListUsuarioGrupo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -427,6 +434,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\App_Dominio\App_Dominio\App_Dominio\App_Dominio.csproj">

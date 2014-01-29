@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace Seguranca.Controllers
 {
-    public class UsuarioController : RootController<UsuarioRepository, UsuarioModel>
+    public class UsuariosController : RootController<UsuarioRepository, UsuarioModel>
     {
         public override int _sistema_id() { return (int)Sistema.SEGURANCA ; }
         public override string getListName()
@@ -24,7 +24,7 @@ namespace Seguranca.Controllers
         [AuthorizeFilter]
         public override ActionResult List(int? index, int? pageSize = 50, string descricao = null)
         {
-            ListViewUsuario l = new ListViewUsuario();
+            ListViewUsuarioCad l = new ListViewUsuarioCad();
             return this._List(index, pageSize, "Browse", l, descricao);
         }
         [AuthorizeFilter]

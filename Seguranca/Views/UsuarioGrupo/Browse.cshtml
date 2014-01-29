@@ -1,0 +1,73 @@
+﻿@using Seguranca.Models.Repositories
+@using Seguranca.Models.Enumeracoes
+@using App_Dominio.Repositories
+@model System.Web.Mvc.PagedList<Seguranca.Models.Repositories.UsuarioGrupoViewModel>
+@{
+    ViewBag.Title = "Segurança";
+    ViewBag.Header = "Grupos x Usuários";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2 class="panel-title">
+            Usuários do grupo <small> Listagem dos usuários que estão cadastrados em um determinado grupo</small>
+        </h2>
+    </div>
+    <div class="panel-body">
+        <div class="row" style="height: 70px">
+            @using (Ajax.BeginForm(null, null, null, new AjaxOptions { HttpMethod = "get" }, new { @class = "form-horizontal", @role = "search" }))
+            {
+                <div class="col-md-3">
+                    <div class="form-group col-md-12">
+                        @Html.Label("Sistema", new { @class = "control-label" })
+                        @Html.DropDownList("sistemaId", new BindDropDownList().Sistema("Selecione...", ""), new { @class = "form-control input-sm", @onchange = "GetSelectListOnCascade('sistemaId', 'grupoId');" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group col-md-12">
+                        @Html.Label("Grupo", new { @class = "control-label" })
+                        <div id="div-grupo">
+                            @{
+                                IList<SelectListItem> grupos = new List<SelectListItem>();
+                                grupos.Add(new SelectListItem() { Value = "", Text = "Selecione..." });
+                            }
+                            @Html.DropDownList("grupoId", grupos, new { @class = "form-control input-sm" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group col-md-12">
+                        @Html.Label("Usuário", new { @class= "control-label"})
+                        @Html.TextBox("nome", "", new { @class = "form-control input-sm", @placeholder = "usuário ou login" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group col-md-12" style="margin-top: 20px">
+                        <button type="button" class="btn btn-default" onclick="return validaBusca();">Buscar</button>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="div-list">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    function validaBusca() {
+        if ($("#grupoId option:selected").val() == "" || $("#sistemaId option:selected").val() == "") {
+            ShowMessageAlert('Informe o sistema e o grupo para realizar a busca.', 'warning');
+            return false;
+        }
+        Refresh(0, getPageSize(), 'ListUsuarioGrupo', 'div-list');
+        return true;
+    }
+
+</script>
+
+

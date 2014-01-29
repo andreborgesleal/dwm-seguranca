@@ -5,7 +5,7 @@
     ViewBag.Title = "Segurança";
 
 }
-@using (Html.BeginForm("Edit", "Usuario", FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Create", "Usuarios", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     <div class="panel panel-default" style="margin-top: 10px">
         <div class="panel-heading">
@@ -48,7 +48,7 @@
                         @Html.LabelFor(m => m.nome, "Nome*", new { @class = "col-md-2 control-label" })
                         <div class="col-md-8">
                             <div class="input-group col-md-4">
-                                @Html.TextBoxFor(m => m.nome, new { @class = "form-control input-sm" })<br />
+                                @Html.TextBoxFor(m => m.nome, new { @class = "form-control input-sm", @style = "text-transform: uppercase;" })<br />
                             </div>
                         </div>
                     </div>
@@ -106,7 +106,7 @@
                     </div>
                 </div>
             </div>
-
+            
 
         </div>
         <div class="panel-footer">
@@ -122,7 +122,7 @@
                                                     } ,
                             new ButtonRepository() {    linkText = "Cancelar",
                                                         actionName = "Browse",
-                                                        controllerName = "Usuario",
+                                                        controllerName = "Usuarios",
                                                         buttonType = "link"
                                                     }
                         })
@@ -134,5 +134,4 @@
         </div>
     </div>
 }
-
 
