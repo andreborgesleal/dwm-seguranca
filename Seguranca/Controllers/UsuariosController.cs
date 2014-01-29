@@ -35,8 +35,13 @@ namespace Seguranca.Controllers
         [AuthorizeFilter]
         public ActionResult ListUsuarioModal(int? index, int? pageSize = 50, string descricao = null)
         {
-            LookupUsuarioModel l = new LookupUsuarioModel();
-            return this.ListModal(index, pageSize, l, "Usuários", descricao);
+            if (ViewBag.ValidateRequest)
+            {
+                LookupUsuarioModel l = new LookupUsuarioModel();
+                return this.ListModal(index, pageSize, l, "Usuários", descricao);
+            }
+            else
+                return View();
         }
 
         [AuthorizeFilter]
@@ -72,7 +77,7 @@ namespace Seguranca.Controllers
         public JsonResult GetNames(string term)
         {
             if (ViewBag.ValidateRequest)
-            return JSonTypeahead(term, new ListViewUsuario());
+                return JSonTypeahead(term, new ListViewUsuario());
             else
                 return null;            
         }

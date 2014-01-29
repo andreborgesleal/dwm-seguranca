@@ -30,46 +30,68 @@ namespace Seguranca.Controllers
         [AuthorizeFilter]
         public override ActionResult List(int? index, int? pageSize = 50, string descricao = null)
         {
-            return ListUsuarioGrupo(index, PageSize);
+            if (ViewBag.ValidateRequest)
+                return ListUsuarioGrupo(index, PageSize);
+            else
+                return View();
         }
         #endregion
 
+        [AuthorizeFilter]
         public ActionResult ListUsuarioGrupo(int? index, int? pageSize = 50, int? grupoId = null, string nome = "")
         {
-            ListViewUsuarioGrupo l = new ListViewUsuarioGrupo();
-            return _List(index, pageSize, "Browse", l, grupoId, nome);
+            if (ViewBag.ValidateRequest)
+            {
+                ListViewUsuarioGrupo l = new ListViewUsuarioGrupo();
+                return _List(index, pageSize, "Browse", l, grupoId, nome);
+            }
+            else
+                return View();
         }
 
         #region Salvar
+        [AuthorizeFilter(Order = 999)]
         public JsonResult Save(int _grupoId, int _usuarioId, string _situacao, string operacao)
         {
-            try
-            {
-                UsuarioGrupoViewModel value = new UsuarioGrupoViewModel()
+            if (ViewBag.ValidateRequest)
+                try
                 {
-                    grupoId = _grupoId,
-                    usuarioId = _usuarioId,
-                    situacao = _situacao
-                };
+                    UsuarioGrupoViewModel value = new UsuarioGrupoViewModel()
+                    {
+                        grupoId = _grupoId,
+                        usuarioId = _usuarioId,
+                        situacao = _situacao
+                    };
 
-                if (operacao == "true")
-                    return SaveJSon(value, getModel(), null);
-                else
-                    return DeleteJSon(value, getModel(), null);
-            }
-            catch (Exception ex)
+                    if (operacao == "true")
+                        return SaveJSon(value, getModel(), null);
+                    else
+                        return DeleteJSon(value, getModel(), null);
+                }
+                catch (Exception ex)
+                {
+                    App_DominioException.saveError(ex, GetType().FullName);
+
+                    IDictionary<int, string> result = new Dictionary<int, string>();
+                    result.Add(17, MensagemPadrao.Message(17).ToString());
+
+                    return new JsonResult()
+                    {
+                        Data = result.ToArray(),
+                        JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                    };
+
+                }
+            else
             {
-                App_DominioException.saveError(ex, GetType().FullName);
-
                 IDictionary<int, string> result = new Dictionary<int, string>();
-                result.Add(17, MensagemPadrao.Message(17).ToString());
+                result.Add(-1, MensagemPadrao.Message(202).ToString());
 
                 return new JsonResult()
                 {
                     Data = result.ToArray(),
                     JsonRequestBehavior = JsonRequestBehavior.AllowGet
                 };
-
             }
 
         }
@@ -77,10 +99,24 @@ namespace Seguranca.Controllers
 
 
         #region DropDownList
+        [AuthorizeFilter(Order = 999)]
         public JsonResult GetNames(string term)
         {
-            // recebe o sistemaId e retorna um objeto JSon IEnumerable<SelectListItem> com o o código e a descrição dos grupos
-            return JSonSelectListItem(term, new SelectListViewGrupo());
+            if (ViewBag.ValidateRequest)
+                // recebe o sistemaId e retorna um objeto JSon IEnumerable<SelectListItem> com o o código e a descrição dos grupos
+                return JSonSelectListItem(term, new SelectListViewGrupo());
+            else
+            {
+                IList<SelectListItem> result = new List<SelectListItem>();
+
+                result.Add(new SelectListItem() { Value = "-1", Text = MensagemPadrao.Message(202).ToString() });
+
+                return new JsonResult()
+                {
+                    Data = result.ToList(),
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
+                };
+            }
         }
         #endregion
 	}
