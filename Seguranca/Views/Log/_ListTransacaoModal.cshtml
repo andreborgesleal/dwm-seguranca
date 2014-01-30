@@ -1,0 +1,54 @@
+﻿@model System.Web.Mvc.PagedList<App_Dominio.Repositories.TransacaoRepository>
+@{
+    Layout = null;
+}
+
+@if (Model != null && Model.Count > 0)
+{
+    <div class="row Scroll">
+        <div class="col-md-12" style="padding-right: 0px;">
+            <table class="table table-hover table-bordered table-condensed" style="cursor: pointer">
+                <caption></caption>
+                <thead style="background-color: #fff1a5">
+                    <tr>
+                        <th>Funcionalidade</th>
+                        <th>Descrição</th>
+                        <th>Referência</th>
+                        <th>Url</th>
+                    </tr>
+                </thead>
+                @foreach (App_Dominio.Repositories.TransacaoRepository tra in Model)
+                {
+                    string _span = tra.referencia == "Menu Suspenso" ? "font-weight: bold" : ""; ;
+                    <tr onclick="Move('@tra.transacaoId', '@tra.nomeCurto')">
+                        <td style="width: 23%">
+                            <div style="text-indent: @((tra.referencia == "Barra de Menu" ? 0 : tra.referencia == "Menu Suspenso" ? 1 : 2) * 20)px; @_span">
+                                <span class="@_span">@tra.nomeCurto</span>
+                            </div>
+                        </td>
+                        <td>
+                            <span style="@_span">@tra.descricao</span><br /><small>@tra.url</small>
+                        </td>
+                        <td style="width: 15%">
+                            <span style="@_span">@tra.referencia</span>
+                        </td>
+                        <td>
+                            <span style="@_span">@tra.url</span>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" style="margin-bottom: -20px; margin-top: -10px">
+            @Html.Partial("Paginacao", Model)
+        </div>
+    </div>
+}
+else
+{
+    @Html.Partial("_AcessoNegadoModal")
+}
+
+

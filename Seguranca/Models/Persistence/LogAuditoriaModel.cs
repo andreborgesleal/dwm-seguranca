@@ -64,4 +64,87 @@ namespace Seguranca.Models.Persistence
         #endregion
 
     }
+
+    public class LookupTransacaoModel : ListViewRepository<TransacaoRepository, ApplicationContext>
+    {
+        #region Métodos da classe ListViewRepository
+        public override IEnumerable<TransacaoRepository> Bind(int? index, int pageSize = 50, params object[] param)
+        {
+            EmpresaSecurity<SecurityContext> security = new EmpresaSecurity<SecurityContext>();
+            sessaoCorrente = security.getSessaoCorrente();
+
+            int _sistemaId = int.Parse(param[0].ToString());
+
+            var pai = from tra in db.Transacaos
+                      where tra.sistemaId == _sistemaId
+                            && tra.transacaoId_pai == null
+                      orderby tra.posicao
+                      select new TransacaoRepository()
+                      {
+                          transacaoId = tra.transacaoId,
+                          nomeCurto = tra.nomeCurto,
+                          nome = tra.nome,
+                          referencia = tra.referencia,
+                          url = tra.url
+                      };
+
+            IList<TransacaoRepository> result = new List<TransacaoRepository>();
+
+            foreach (TransacaoRepository tra in pai)
+            {
+                result.Add(tra);
+                Fill(ref result, tra.transacaoId, _sistemaId);
+            }
+
+            return result.ToList();
+        }
+
+        public override Repository getRepository(Object id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string action()
+        {
+            return "../Log/ListTransacaoModal";
+        }
+        #endregion
+
+        #region Métodos customizados
+        // Utiliza Recursão
+        private void Fill(ref IList<TransacaoRepository> value, int _transacaoId_pai, int _sistemaId)
+        {
+            var fun = from tra in db.Transacaos
+                      where tra.sistemaId == _sistemaId
+                            && tra.transacaoId_pai == _transacaoId_pai
+                      orderby tra.posicao
+                      select new TransacaoRepository()
+                      {
+                          transacaoId = tra.transacaoId,
+                          nomeCurto = tra.nomeCurto,
+                          nome = tra.nome,
+                          referencia = tra.referencia,
+                          url = tra.url
+                      };
+
+            foreach (TransacaoRepository tra in fun)
+            {
+                value.Add(tra);
+                Fill(ref value, tra.transacaoId, _sistemaId);
+            }
+        }
+        #endregion
+
+
+    }
+
+    public class LookupTransacaoFiltroModel : LookupTransacaoModel
+    {
+        public override string action()
+        {
+            return "../Log/_ListTransacaoModal";
+        }
+    }
+
+
 }

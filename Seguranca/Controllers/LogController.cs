@@ -31,7 +31,6 @@ namespace Seguranca.Controllers
             else
                 return View();
         }
-        #endregion
 
         [AuthorizeFilter]
         public ActionResult ListLogAuditoria(int? index, int? pageSize = 50, int? transacaoid = null, int? usuarioId = null, string data1 = "", string data2 = "")
@@ -46,5 +45,32 @@ namespace Seguranca.Controllers
             else
                 return View();
         }
+        #endregion
+
+        #region Formulario Modal (Transacao)
+        [AuthorizeFilter]
+        public ActionResult ListTransacaoModal(int? index, int? pageSize = 50, string descricao = null)
+        {
+            if (ViewBag.ValidateRequest)
+            {
+                LookupTransacaoModel l = new LookupTransacaoModel();
+                return this.ListModal(index, pageSize, l, "Funcionalidades", descricao);
+            }
+            else
+                return View();
+        }
+
+        [AuthorizeFilter]
+        public ActionResult _ListTransacaoModal(int? index, int? pageSize = 50, string descricao = null)
+        {
+            if (ViewBag.ValidateRequest)
+            {
+                LookupTransacaoFiltroModel l = new LookupTransacaoFiltroModel();
+                return this.ListModal(index, pageSize, l, "Funcionalidades", descricao);
+            }
+            else
+                return View();
+        }
+        #endregion
     }
 }

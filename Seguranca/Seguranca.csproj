@@ -246,7 +246,19 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\LOVModal.cshtml" />
+    <Content Include="Views\Home\LovTransacaoModal.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Home\LovUsuarioAllModal.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Views\Home\LovUsuarioModal.cshtml" />
+    <Content Include="Views\Log\Browse.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Views\Log\ListLogAuditoria.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Views\Shared\EditorTemplates\DATE.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DECIMAL.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\TYPEAHEAD.cshtml" />
@@ -289,6 +301,11 @@
     <Content Include="Views\Shared\_AcessoNegado.cshtml" />
     <Content Include="Views\Shared\_AcessoNegadoModal.cshtml" />
     <Content Include="Views\Home\_Error.cshtml" />
+    <Content Include="Views\Log\ListTransacaoModal.cshtml" />
+    <Content Include="Views\Log\_ListTransacaoModal.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\LOV.cshtml" />
+    <Content Include="Views\Usuarios\ListUsuarioAllModal.cshtml" />
+    <Content Include="Views\Usuarios\_ListUsuarioAllModal.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

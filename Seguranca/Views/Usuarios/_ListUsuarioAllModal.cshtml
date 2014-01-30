@@ -1,0 +1,47 @@
+﻿@model System.Web.Mvc.PagedList<App_Dominio.Repositories.UsuarioRepository>
+@{
+    Layout = null;
+}
+
+@if (Model != null && Model.Count > 0)
+{
+    <div class="row Scroll">
+        <div class="col-md-12" style="padding-right: 0px;">
+            <table class="table table-hover table-bordered table-condensed" style="cursor: pointer">
+                <caption></caption>
+                <thead style="background-color: #fff1a5">
+                    <tr>
+                        <th>Nome</th>
+                        <th>Login</th>
+                    </tr>
+                </thead>
+                @foreach (App_Dominio.Repositories.UsuarioRepository usu in Model)
+                {
+                    <tr onclick="Move('@usu.usuarioId', '@usu.nome')">
+                        <td>
+                            <div>
+                                @usu.nome
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                @usu.login
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" style="margin-bottom: -20px; margin-top: -10px">
+            @Html.Partial("Paginacao", Model)
+        </div>
+    </div>
+}
+else
+{
+    @Html.Partial("_AcessoNegadoModal")
+}
+
+

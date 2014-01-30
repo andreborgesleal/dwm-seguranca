@@ -9,6 +9,7 @@ using App_Dominio.Negocio;
 using Seguranca.Models;
 using Seguranca.Models.Enumeracoes;
 using App_Dominio.Entidades;
+using Seguranca.Models.Persistence;
 
 namespace Seguranca.Controllers
 {
@@ -88,6 +89,24 @@ namespace Seguranca.Controllers
         {
             if (ViewBag.ValidateRequest)
                 return this.ListModal(index, pageSize, new LookupUsuarioModel(), "Usuários", null, Seguranca.Models.Enumeracoes.Sistema.SEGURANCA);
+            else
+                return View();
+        }
+
+        [AuthorizeFilter]
+        public ActionResult LovUsuarioAllModal(int? index, int? pageSize = 50)
+        {
+            if (ViewBag.ValidateRequest)
+                return this.ListModal(index, pageSize, new LookupUsuarioAllModel(), "Usuários", null, Seguranca.Models.Enumeracoes.Sistema.SEGURANCA);
+            else
+                return View();
+        }
+
+        [AuthorizeFilter]
+        public ActionResult LovTransacaoModal(int? index, int? pageSize = 50)
+        {
+            if (ViewBag.ValidateRequest)
+                return this.ListModal(index, pageSize, new LookupTransacaoModel(), "Funcionalidades", null, Seguranca.Models.Enumeracoes.Sistema.SEGURANCA);
             else
                 return View();
         }

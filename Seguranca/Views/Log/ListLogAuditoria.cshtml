@@ -1,0 +1,130 @@
+﻿@model System.Web.Mvc.PagedList<App_Dominio.Repositories.LogAuditoriaRepository>
+@{
+    Layout = null;
+}
+@if (Model != null && Model.Count > 0)
+{
+    <div class="row Scroll">
+        <div class="col-md-12 column">
+            <table class="table table-hover table-bordered table-condensed" style="cursor: pointer;">
+                <caption></caption>
+                <thead style="background-color: #fff1a5">
+                    <tr>
+                        <th>ID</th>
+                        <th>Data</th>
+                        <th>Usuário</th>
+                        <th>Login</th>
+                        <th>Funcionalidade</th>
+                        <th>Descrição</th>
+                        <th>IP</th>
+                        <th style="text-align: center">Ação</th>
+                    </tr>
+                </thead>
+                @foreach (App_Dominio.Repositories.LogAuditoriaRepository log in Model)
+                {
+                    <tr>
+                        <td>
+                            @log.logId
+                        </td>
+                        <td>
+                            @log.dt_log.ToString("dd/MM/yyyy HH:mm")
+                        </td>
+                        <td>
+                            @log.nome_usuario
+                        </td>
+                        <td>>
+                            @log.login
+                        </td>
+                        <td>
+                            @log.nomeCurto
+                        </td>
+                        <td>
+                            @log.nome_funcionalidade
+                        </td>
+                        <td>
+                            @log.ip
+                        </td>
+                        <td style="width: 10%">
+                            <div class="row-clearfix">
+                                <div class="col-md-12">
+                                    <div class="btn-group btn-group-xs">
+                                        <button class="btn btn-sm" type="button" onclick="Detail('@log.logId')">
+                                            <em class="glyphicon glyphicon-saved"></em> <span style="text-decoration: none; color: #646464">Salvar</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12" style="margin-bottom: -20px; margin-top: -10px">
+            @Html.Partial("Paginacao", Model)
+        </div>
+    </div>
+}
+else
+{
+    @Html.Partial("_AcessoNegadoModal")
+}
+
+<script type="text/javascript">
+    function Save(usuarioId, id) {
+        var link = "Save";
+        var _situacao = "";
+        var _autorizar = "";
+        var grupoId = $("#grupoId option:selected").val();
+
+        alert(grupoId);
+
+        // Recupera os valores dos atributos situação e autorizar
+        _situacao = $("#situacao" + id + " option:selected").val();
+        if ($('#autorizar' + id).is(':checked'))
+            _autorizar = "true";
+        else
+            _autorizar = "false";
+
+        if ((_situacao == '' || _situacao == null) && _autorizar == 'true') {
+            ShowMessageAlert("O Campo Situação deve ser selecionado com [Ativo] ou [Desativado] para [Salvar] o registro", "warning");
+            return;
+        }
+
+        link = encodeURI(link + '?_grupoId=' + grupoId + '&_usuarioId=' + usuarioId + '&_situacao=' + _situacao + '&operacao=' + _autorizar);
+        link = encodeURI(link + '&noCahce=' + new Date());
+
+        CarregandoIn();
+
+        $.ajax({
+            type: "POST",
+            url: link,
+            contentType: "application/json; charset=utf-8",
+            global: false,
+            async: false,
+            dataType: "json",
+            //data: { _grupoId: grupoId, _transacaoId: transacaoId, _situacao: _situacao, operacao: _autorizar},
+            success: function (jsonObj) {
+                if (jsonObj[0].Key == 0)
+                    ShowMessageAlert(jsonObj[0].Value, "success");
+                else
+                    ShowMessageAlert(jsonObj[0].Value, "danger");
+                $('#carregando').css("visibility", "hidden");
+                $('#carregando').css("height", "0px");
+                $('#carregando').css("margin-top", "0%");
+                $('#carregando').css("margin-left", "0%");
+            },
+            error: function (jqXHR, textStatus) {
+                ShowMessageAlert("Não foi possível executar a operação", "danger");
+                $('#carregando').css("visibility", "hidden");
+                $('#carregando').css("height", "0px");
+                $('#carregando').css("margin-top", "0%");
+                $('#carregando').css("margin-left", "0%");
+            }
+        });
+
+    }
+
+</script>

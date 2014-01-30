@@ -10,7 +10,7 @@ namespace Seguranca.Models
     {
         public override string action()
         {
-            return "../Usuario/ListUsuarioModal";
+            return "../Usuarios/ListUsuarioModal";
         }
     }
 
@@ -18,7 +18,24 @@ namespace Seguranca.Models
     {
         public override string action()
         {
-            return "../Usuario/_ListUsuarioModal";
+            return "../Usuarios/_ListUsuarioModal";
         }
     }
+
+    public class LookupUsuarioAllModel : ListViewUsuariosAll
+    {
+        public override string action()
+        {
+            return "../Usuarios/ListUsuarioAllModal";
+        }
+    }
+
+    public class LookupUsuarioAllFiltroModel : ListViewUsuariosAll
+    {
+        public override string action()
+        {
+            return "../Usuarios/_ListUsuarioAllModal";
+        }
+    }
+
 }

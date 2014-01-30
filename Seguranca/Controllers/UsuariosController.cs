@@ -55,6 +55,33 @@ namespace Seguranca.Controllers
             else
                 return View();
         }
+
+        #region Usuários do Log de Auditoria (Todos os usuários)
+        [AuthorizeFilter]
+        public ActionResult ListUsuarioAllModal(int? index, int? pageSize = 50, string descricao = null)
+        {
+            if (ViewBag.ValidateRequest)
+            {
+                LookupUsuarioAllModel l = new LookupUsuarioAllModel();
+                return this.ListModal(index, pageSize, l, "Usuários", descricao);
+            }
+            else
+                return View();
+        }
+
+        [AuthorizeFilter]
+        public ActionResult _ListUsuarioAllModal(int? index, int? pageSize = 50, string descricao = null)
+        {
+            if (ViewBag.ValidateRequest)
+            {
+                LookupUsuarioAllFiltroModel l = new LookupUsuarioAllFiltroModel();
+                return this.ListModal(index, pageSize, l, "Usuáiros", descricao);
+            }
+            else
+                return View();
+        }
+
+        #endregion
         #endregion
 
         #region edit
