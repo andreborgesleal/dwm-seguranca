@@ -1,5 +1,7 @@
 ﻿use seguranca
 
+select * From Transacao where transacaoId_pai = 174 or transacaoId = 174 and sistemaId = 1
+
 delete from GrupoTransacao where grupoId = 3 and transacaoId not in (141, 139, 140, 138, 142)
 
 select * from sistema

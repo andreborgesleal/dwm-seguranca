@@ -17,5 +17,6 @@ namespace Seguranca.Models.Entidades
         public DbSet<Transacao> Transacaos { get; set; }
         public DbSet<UsuarioGrupo> UsuarioGrupos { get; set; }
         public DbSet<EmpresaSistema> EmpresaSistemas { get; set; }
+        public DbSet<LogAuditoria> LogAuditorias { get; set; }
     }
 }
