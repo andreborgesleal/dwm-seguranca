@@ -106,7 +106,7 @@ namespace Seguranca.Controllers
         public ActionResult LovTransacaoModal(int? index, int? pageSize = 50)
         {
             if (ViewBag.ValidateRequest)
-                return this.ListModal(index, pageSize, new LookupTransacaoModel(), "Funcionalidades", null, Seguranca.Models.Enumeracoes.Sistema.SEGURANCA);
+                return this.ListModal(index, pageSize, new LookupTransacaoModel(), "Funcionalidades", Seguranca.Models.Enumeracoes.Sistema.SEGURANCA);
             else
                 return View();
         }

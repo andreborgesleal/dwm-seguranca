@@ -21,13 +21,13 @@
 
     .Scroll {
         overflow-y: scroll;
-        height: 610px;
+        height: 560px;
     }
 
     .Listagem {
         margin-left: 10px;
         margin-top: 10px;
-        max-height: 570px;
+        max-height: 560px;
         overflow-y: auto;
     }
 }
@@ -36,7 +36,7 @@
     input,
     select,
     textarea {
-        max-width: 580px;
+        max-width: 400px;
     }
 
     .Scroll {

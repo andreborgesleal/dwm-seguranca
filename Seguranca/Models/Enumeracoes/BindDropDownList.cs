@@ -86,7 +86,7 @@ namespace Seguranca.Models.Enumeracoes
                             {
                                Value = sis.sistemaId.ToString(),
                                Text = sis.nome,
-                               Selected = (selectedValue != "" ? sis.descricao.Equals(selectedValue) : false)
+                               Selected = (selectedValue != "" ? sis.nome.Equals(selectedValue) : false)
                             }).Distinct().ToList();
 
                 return q;

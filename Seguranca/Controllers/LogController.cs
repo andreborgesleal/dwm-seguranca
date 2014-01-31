@@ -49,24 +49,24 @@ namespace Seguranca.Controllers
 
         #region Formulario Modal (Transacao)
         [AuthorizeFilter]
-        public ActionResult ListTransacaoModal(int? index, int? pageSize = 50, string descricao = null)
+        public ActionResult ListTransacaoModal(int? index, int? pageSize = 50, int? codigo = null)
         {
-            if (ViewBag.ValidateRequest)
+             if (ViewBag.ValidateRequest)
             {
                 LookupTransacaoModel l = new LookupTransacaoModel();
-                return this.ListModal(index, pageSize, l, "Funcionalidades", descricao);
+                return this.ListModal(index, pageSize, l, "Funcionalidades", codigo);
             }
             else
                 return View();
         }
 
         [AuthorizeFilter]
-        public ActionResult _ListTransacaoModal(int? index, int? pageSize = 50, string descricao = null)
+        public ActionResult _ListTransacaoModal(int? index, int? pageSize = 50, int? codigo = null)
         {
             if (ViewBag.ValidateRequest)
             {
                 LookupTransacaoFiltroModel l = new LookupTransacaoFiltroModel();
-                return this.ListModal(index, pageSize, l, "Funcionalidades", descricao);
+                return this.ListModal(index, pageSize, l, "Funcionalidades", codigo);
             }
             else
                 return View();

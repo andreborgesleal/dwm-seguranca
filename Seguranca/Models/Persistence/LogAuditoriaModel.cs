@@ -23,20 +23,20 @@ namespace Seguranca.Models.Persistence
             int? _transacaoId = param[0] != null ? (int?)param[0] : null;
             int? _usuarioId = param[1] != null ? (int?)param[1] : null;
             DateTime _data1 = (DateTime)param[2];
-            DateTime _data2 = (DateTime)param[3];
+            DateTime _data2 = ((DateTime)param[3]).AddDays(1).AddMinutes(-1);
 
             return (from l in db.LogAuditorias join t in db.Transacaos on l.transacaoId equals t.transacaoId
                     join u in db.Usuarios on l.usuarioId equals u.usuarioId
                     where (_transacaoId == null || l.transacaoId == _transacaoId) &&
                           (_usuarioId == null || l.usuarioId == _usuarioId)   &&
-                          l.dt_log >= _data1 && l.dt_log <= _data2.AddDays(1).AddMinutes(-1) &&
+                          l.dt_log >= _data1 && l.dt_log <= _data2 &&
                           l.empresaId == sessaoCorrente.empresaId
                     orderby l.dt_log descending
                     select new LogAuditoriaRepository
                     {
                         logId = l.logId,
                         transacaoId = l.transacaoId,
-                        nomeCurto = t.nome,
+                        nomeCurto = t.nomeCurto,
                         nome_funcionalidade = t.nome,
                         empresaId = l.empresaId,
                         usuarioId = l.usuarioId,
@@ -51,7 +51,7 @@ namespace Seguranca.Models.Persistence
                                       join u1 in db.Usuarios on l1.usuarioId equals u1.usuarioId
                                       where (_transacaoId == null || l1.transacaoId == _transacaoId) &&
                                             (_usuarioId == null || l1.usuarioId == _usuarioId) &&
-                                            l1.dt_log >= _data1 && l1.dt_log <= _data2.AddDays(1).AddMinutes(-1) &&
+                                            l1.dt_log >= _data1 && l1.dt_log <= _data2 &&
                                             l1.empresaId == sessaoCorrente.empresaId
                                       select l1).Count()
                     }).Skip((index ?? 0) * pageSize).Take(pageSize).ToList();
@@ -73,7 +73,7 @@ namespace Seguranca.Models.Persistence
             EmpresaSecurity<SecurityContext> security = new EmpresaSecurity<SecurityContext>();
             sessaoCorrente = security.getSessaoCorrente();
 
-            int _sistemaId = int.Parse(param[0].ToString());
+            int _sistemaId = (int)param[0];
 
             var pai = from tra in db.Transacaos
                       where tra.sistemaId == _sistemaId

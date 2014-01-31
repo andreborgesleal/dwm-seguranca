@@ -18,14 +18,8 @@
             @using (Ajax.BeginForm(null, null, null, new AjaxOptions { HttpMethod = "get" }, new { @class = "form-horizontal", @role = "search" }))
             {
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group col-md-12">
-                            @Html.Label("Sistema", new { @class = "control-label" })
-                            @Html.DropDownList("sistemaId", new BindDropDownList().Sistema("Selecione...", ""), new { @class = "form-control input-sm" })
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="form-group col-md-6">
                             @Html.Editor("_usuarioID", "LOV", new
                                                {
                                                    typeahead = new TypeaheadRepository()
@@ -47,9 +41,7 @@
                                                })
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group col-md-12">
                             @Html.Editor("_transacaoId", "LOV", new
                                                {
@@ -72,6 +64,8 @@
                                                })
                         </div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group col-md-12">
                             @Html.Label("Período", new { @class = "control-label" })
@@ -85,7 +79,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-6">
                         <div class="form-group col-md-12" style="margin-top: 20px">
                             <button type="button" class="btn btn-default" onclick="return validaBusca();">Buscar</button>
                         </div>
@@ -95,7 +89,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div id="div-list">
+                <div id="div-list2">
                 </div>
             </div>
         </div>
@@ -109,7 +103,7 @@
             ShowMessageAlert('Informe o período para realizar a busca.', 'warning');
             return false;
         }
-        Refresh(0, getPageSize(), 'ListLogAuditoria', 'div-list');
+        Refresh(0, getPageSize(), 'ListLogAuditoria', 'div-list2');
         return true;
     }
 
