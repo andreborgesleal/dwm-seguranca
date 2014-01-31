@@ -77,10 +77,10 @@
                             @Html.Label("Período", new { @class = "control-label" })
                             <div class="row">
                                 <div class="col-md-4">
-                                    @Html.Editor("_data1", "DATE", new { identificador = "data1", readOnly = "false" })
+                                    @Html.Editor("_data1", "DATE", new { identificador = "data1", readOnly = "false", value = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1) })
                                 </div>
                                 <div class="col-md-8">
-                                    @Html.Editor("_data2", "DATE", new { identificador = "data2", readOnly = "false" })
+                                    @Html.Editor("_data2", "DATE", new { identificador = "data2", readOnly = "false", value = DateTime.Today })
                                 </div>
                             </div>
                         </div>
