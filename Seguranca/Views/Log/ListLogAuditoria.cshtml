@@ -15,7 +15,6 @@
                         <th>Usuário</th>
                         <th>Login</th>
                         <th>Funcionalidade</th>
-                        <th>Descrição</th>
                         <th>IP</th>
                         <th style="text-align: center">Ação</th>
                     </tr>
@@ -37,9 +36,6 @@
                         </td>
                         <td>
                             @log.nomeCurto
-                        </td>
-                        <td>
-                            @log.nome_funcionalidade
                         </td>
                         <td>
                             @log.ip
@@ -66,6 +62,7 @@
             @Html.Partial("Paginacao", Model)
         </div>
     </div>
+    <div id="div-log"></div>
 }
 else
 {
@@ -73,58 +70,26 @@ else
 }
 
 <script type="text/javascript">
-    function Save(usuarioId, id) {
-        var link = "Save";
-        var _situacao = "";
-        var _autorizar = "";
-        var grupoId = $("#grupoId option:selected").val();
+    function Detail(id) {
+        var link = "Detail";
 
-        alert(grupoId);
-
-        // Recupera os valores dos atributos situação e autorizar
-        _situacao = $("#situacao" + id + " option:selected").val();
-        if ($('#autorizar' + id).is(':checked'))
-            _autorizar = "true";
-        else
-            _autorizar = "false";
-
-        if ((_situacao == '' || _situacao == null) && _autorizar == 'true') {
-            ShowMessageAlert("O Campo Situação deve ser selecionado com [Ativo] ou [Desativado] para [Salvar] o registro", "warning");
-            return;
-        }
-
-        link = encodeURI(link + '?_grupoId=' + grupoId + '&_usuarioId=' + usuarioId + '&_situacao=' + _situacao + '&operacao=' + _autorizar);
-        link = encodeURI(link + '&noCahce=' + new Date());
+        link = encodeURI(link + '?logId=' + id + '&noCahce=' + new Date());
 
         CarregandoIn();
 
-        $.ajax({
-            type: "POST",
-            url: link,
-            contentType: "application/json; charset=utf-8",
-            global: false,
-            async: false,
-            dataType: "json",
-            //data: { _grupoId: grupoId, _transacaoId: transacaoId, _situacao: _situacao, operacao: _autorizar},
-            success: function (jsonObj) {
-                if (jsonObj[0].Key == 0)
-                    ShowMessageAlert(jsonObj[0].Value, "success");
-                else
-                    ShowMessageAlert(jsonObj[0].Value, "danger");
-                $('#carregando').css("visibility", "hidden");
-                $('#carregando').css("height", "0px");
-                $('#carregando').css("margin-top", "0%");
-                $('#carregando').css("margin-left", "0%");
-            },
-            error: function (jqXHR, textStatus) {
-                ShowMessageAlert("Não foi possível executar a operação", "danger");
-                $('#carregando').css("visibility", "hidden");
-                $('#carregando').css("height", "0px");
-                $('#carregando').css("margin-top", "0%");
-                $('#carregando').css("margin-left", "0%");
-            }
-        });
+        $('#div-log').load(link);
 
+        $(document).ajaxSuccess(function (event, xhr, settings) {
+            $('#carregando').css("visibility", "hidden");
+            $('#carregando').css("height", "0px");
+            $('#carregando').css("margin-top", "0%");
+            $('#carregando').css("margin-left", "0%");
+        }).error(function () {
+            $('#carregando').css("visibility", "hidden");
+            $('#carregando').css("height", "0px");
+            $('#carregando').css("margin-top", "0%");
+            $('#carregando').css("margin-left", "0%");
+        })
     }
 
 </script>

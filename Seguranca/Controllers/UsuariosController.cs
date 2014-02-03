@@ -1,4 +1,5 @@
 ﻿using App_Dominio.Controllers;
+using App_Dominio.Entidades;
 using App_Dominio.Negocio;
 using App_Dominio.Repositories;
 using App_Dominio.Security;
@@ -14,7 +15,7 @@ namespace Seguranca.Controllers
 {
     public class UsuariosController : RootController<UsuarioRepository, UsuarioModel>
     {
-        public override int _sistema_id() { return (int)Sistema.SEGURANCA ; }
+        public override int _sistema_id() { return (int)Seguranca.Models.Enumeracoes.Sistema.SEGURANCA; }
         public override string getListName()
         {
             return "Listar Usuários";

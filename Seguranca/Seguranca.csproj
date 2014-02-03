@@ -48,6 +48,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AlterarSenhaController.cs" />
     <Compile Include="Controllers\GruposController.cs" />
     <Compile Include="Controllers\GrupoTransacaoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -306,6 +307,8 @@
     <Content Include="Views\Shared\EditorTemplates\LOV.cshtml" />
     <Content Include="Views\Usuarios\ListUsuarioAllModal.cshtml" />
     <Content Include="Views\Usuarios\_ListUsuarioAllModal.cshtml" />
+    <Content Include="Views\Log\Detail.cshtml" />
+    <Content Include="Views\AlterarSenha\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

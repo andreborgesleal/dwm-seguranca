@@ -1,4 +1,5 @@
 ﻿using App_Dominio.Controllers;
+using App_Dominio.Entidades;
 using App_Dominio.Repositories;
 using App_Dominio.Security;
 using Seguranca.Models.Enumeracoes;
@@ -11,7 +12,7 @@ namespace Seguranca.Controllers
 {
     public class LogController : ReportController<LogAuditoriaRepository>
     {
-        public override int _sistema_id() { return (int)Sistema.SEGURANCA; }
+        public override int _sistema_id() { return (int)Seguranca.Models.Enumeracoes.Sistema.SEGURANCA; }
         public override string getListName()
         {
             return "Log de Auditoria";
@@ -45,6 +46,23 @@ namespace Seguranca.Controllers
             else
                 return View();
         }
+        #endregion
+
+        [AuthorizeFilter(Order=999)]
+        #region Detail
+        public ActionResult Detail(int logId)
+        {
+            if (ViewBag.ValidateRequest)
+            {
+                EmpresaSecurity<SecurityContext> security = new EmpresaSecurity<SecurityContext>();
+                LogAuditoriaRepository log = security.getLogAuditoriaById(logId);
+
+                return View(log.Notacaos);
+            }
+            else
+                return View();
+        }
+
         #endregion
 
         #region Formulario Modal (Transacao)

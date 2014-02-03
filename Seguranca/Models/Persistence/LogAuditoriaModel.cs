@@ -63,6 +63,15 @@ namespace Seguranca.Models.Persistence
         }
         #endregion
 
+        public override string action()
+        {
+            return "../Log/ListLogAuditoria";
+        }
+
+        public override string DivId()
+        {
+            return "div-list2";
+        }
     }
 
     public class LookupTransacaoModel : ListViewRepository<TransacaoRepository, ApplicationContext>
@@ -117,6 +126,8 @@ namespace Seguranca.Models.Persistence
             var fun = from tra in db.Transacaos
                       where tra.sistemaId == _sistemaId
                             && tra.transacaoId_pai == _transacaoId_pai
+                            && !tra.url.Contains("Modal") && !tra.url.Contains("Lov") && !tra.url.Contains("List") && !tra.url.Contains("GetNames")
+
                       orderby tra.posicao
                       select new TransacaoRepository()
                       {
@@ -145,6 +156,4 @@ namespace Seguranca.Models.Persistence
             return "../Log/_ListTransacaoModal";
         }
     }
-
-
 }
