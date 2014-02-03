@@ -12,3 +12,14 @@ select * from Transacao where sistemaId = 1 and transacaoId_pai = 174 or transac
 select * from Transacao where sistemaId = 1 and transacaoId_pai is null
 
 select * from Transacao where sistemaId = 1 and transacaoId_pai = 159 or transacaoId = 159
+
+
+
+select a.transacaoId from Transacao a
+where nomeCurto = 'Editar dados do associado' and sistemaId = 2
+
+select grupoId from Grupo where sistemaId = 2 and empresaId = 1 and descricao = 'Associado'
+
+select * from GrupoTransacao where transacaoId = 130 and grupoId = 3
+insert into GrupoTransacao(grupoId, transacaoId, situacao) values (@grupoId, @transacaoId, 'A')
+
