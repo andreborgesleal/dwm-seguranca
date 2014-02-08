@@ -93,6 +93,7 @@
     <Content Include="Content\images\25-2.jpg" />
     <Content Include="Content\images\7-2.jpg" />
     <Content Include="Content\images\app-company-portal.png" />
+    <Content Include="Content\images\carregando.gif" />
     <Content Include="Content\images\experiencia-de-usuario.jpg" />
     <Content Include="Content\images\loader.gif" />
     <Content Include="Content\images\loader2.gif" />
@@ -487,7 +488,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>0</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:13677/</IISUrl>
+          <IISUrl>http://localhost:29547/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
