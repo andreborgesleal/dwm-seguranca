@@ -183,7 +183,9 @@
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery.maskedinput.js" />
     <Content Include="Scripts\jquery.validate-fix.js" />
+    <None Include="Properties\PublishProfiles\segurancaonline - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\segurancaonline - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\segurancaonline - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\segurancaonline - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />

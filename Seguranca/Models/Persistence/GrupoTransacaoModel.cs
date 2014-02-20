@@ -17,7 +17,7 @@ namespace Seguranca.Models.Persistence
     public class GrupoTransacaoModel : ProcessContext<GrupoTransacao, GrupoTransacaoViewModel, ApplicationContext>
     {
         #region Métodos da classe ProcessContext
-        public override GrupoTransacao ExecProcess(GrupoTransacaoViewModel value)
+        public override GrupoTransacao ExecProcess(GrupoTransacaoViewModel value, Crud operation)
         {
             GrupoTransacao entity = MapToEntity(value);
             if ((from gtr in db.GrupoTransacaos 
