@@ -72,40 +72,48 @@ namespace Seguranca.Models.Persistence
         #region Métodos da classe ListViewRepository
         public override IEnumerable<GrupoTransacaoViewModel> Bind(int? index, int pageSize = 50, params object[] param)
         {
+            IList<GrupoTransacaoViewModel> result = new List<GrupoTransacaoViewModel>();
             EmpresaSecurity<SecurityContext> security = new EmpresaSecurity<SecurityContext>();
             sessaoCorrente = security.getSessaoCorrente();
 
             int _sistemaId = int.Parse(param[0].ToString());
             int _grupoId = int.Parse(param[1].ToString());
 
-            var pai = from tra in db.Transacaos
-                      join sis in db.Sistemas on tra.sistemaId equals sis.sistemaId
-                      where tra.sistemaId == _sistemaId 
-                            && tra.transacaoId_pai == null
-                      orderby tra.posicao
-                      select new GrupoTransacaoViewModel
-                      {
-                          grupoId = _grupoId,
-                          nome_grupo = (from gtr in db.GrupoTransacaos join gru in db.Grupos on gtr.Grupo equals gru
-                                        where gtr.grupoId == _grupoId && gtr.transacaoId == tra.transacaoId
-                                        select gru.descricao).FirstOrDefault(),
-                          transacaoId = tra.transacaoId,
-                          nomeCurto = tra.nomeCurto,
-                          nome_funcionalidade = tra.nome,
-                          referencia = tra.referencia,
-                          nome_sistema = sis.nome,
-                          situacao = (from gtr in db.GrupoTransacaos
-                                      join gru in db.Grupos on gtr.Grupo equals gru
-                                      where gtr.grupoId == _grupoId && gtr.transacaoId == tra.transacaoId
-                                      select gtr.situacao).FirstOrDefault()
-                      };
-
-            IList<GrupoTransacaoViewModel> result = new List<GrupoTransacaoViewModel>();
-
-            foreach (GrupoTransacaoViewModel tra in pai)
+            try
             {
-                result.Add(tra);
-                Fill(ref result, tra.transacaoId, _sistemaId, _grupoId);
+                var pai = (from tra in db.Transacaos
+                          join sis in db.Sistemas on tra.sistemaId equals sis.sistemaId
+                          where tra.sistemaId == _sistemaId
+                                && tra.transacaoId_pai == null
+                          orderby tra.posicao
+                          select new GrupoTransacaoViewModel
+                          {
+                              grupoId = _grupoId,
+                              nome_grupo = (from gtr in db.GrupoTransacaos
+                                            join gru in db.Grupos on gtr.Grupo equals gru
+                                            where gtr.grupoId == _grupoId && gtr.transacaoId == tra.transacaoId
+                                            select gru.descricao).FirstOrDefault(),
+                              transacaoId = tra.transacaoId,
+                              nomeCurto = tra.nomeCurto,
+                              nome_funcionalidade = tra.nome,
+                              referencia = tra.referencia,
+                              nome_sistema = sis.nome,
+                              situacao = (from gtr1 in db.GrupoTransacaos
+                                          join gru1 in db.Grupos on gtr1.Grupo equals gru1
+                                          where gtr1.grupoId == _grupoId && gtr1.transacaoId == tra.transacaoId
+                                          select gtr1.situacao).FirstOrDefault()
+                          }).ToList();
+
+                foreach (GrupoTransacaoViewModel tra in pai)
+                {
+                    result.Add(tra);
+                    Fill(ref result, tra.transacaoId, _sistemaId, _grupoId);
+                }
+            }
+            catch (Exception ex)
+            {
+                Exception e = new App_DominioException(ex.InnerException.Message ?? ex.Message, GetType().FullName);
+                //result = new List<GrupoTransacaoViewModel>();
             }
 
             //for (int i = 0; i <= result.Count-1; i++)
@@ -126,33 +134,41 @@ namespace Seguranca.Models.Persistence
         // Utiliza Recursão
         private void Fill(ref IList<GrupoTransacaoViewModel> value, int _transacaoId_pai, int _sistemaId, int _grupoId)
         {
-            var fun = from tra in db.Transacaos
-                      join sis in db.Sistemas on tra.sistemaId equals sis.sistemaId
-                      where tra.sistemaId == _sistemaId
-                            && tra.transacaoId_pai == _transacaoId_pai
-                      orderby tra.posicao
-                      select new GrupoTransacaoViewModel
-                      {
-                          grupoId = _grupoId,
-                          nome_grupo = (from gtr in db.GrupoTransacaos join gru in db.Grupos on gtr.Grupo equals gru
-                                        where gtr.grupoId == _grupoId && gtr.transacaoId == tra.transacaoId
-                                        select gru.descricao).FirstOrDefault(),
-                          transacaoId = tra.transacaoId,
-                          nomeCurto = tra.nomeCurto,
-                          nome_funcionalidade = tra.nome,
-                          uri = tra.url,
-                          referencia = tra.referencia,
-                          nome_sistema = sis.nome,
-                          situacao = (from gtr in db.GrupoTransacaos
-                                      join gru in db.Grupos on gtr.Grupo equals gru
-                                      where gtr.grupoId == _grupoId && gtr.transacaoId == tra.transacaoId
-                                      select gtr.situacao).FirstOrDefault()
-                      };
-
-            foreach (GrupoTransacaoViewModel tra in fun)
+            try
             {
-                value.Add(tra);
-                Fill(ref value, tra.transacaoId, _sistemaId, _grupoId);
+                var fun =  (from tra in db.Transacaos
+                           join sis in db.Sistemas on tra.sistemaId equals sis.sistemaId
+                           where tra.sistemaId == _sistemaId
+                                 && tra.transacaoId_pai == _transacaoId_pai
+                           orderby tra.posicao
+                           select new GrupoTransacaoViewModel
+                           {
+                               grupoId = _grupoId,
+                               nome_grupo = (from gtr in db.GrupoTransacaos
+                                             join gru in db.Grupos on gtr.Grupo equals gru
+                                             where gtr.grupoId == _grupoId && gtr.transacaoId == tra.transacaoId
+                                             select gru.descricao).FirstOrDefault(),
+                               transacaoId = tra.transacaoId,
+                               nomeCurto = tra.nomeCurto,
+                               nome_funcionalidade = tra.nome,
+                               uri = tra.url,
+                               referencia = tra.referencia,
+                               nome_sistema = sis.nome,
+                               situacao = (from gtr1 in db.GrupoTransacaos
+                                           join gru1 in db.Grupos on gtr1.Grupo equals gru1
+                                           where gtr1.grupoId == _grupoId && gtr1.transacaoId == tra.transacaoId
+                                           select gtr1.situacao).FirstOrDefault()
+                           }).ToList();
+
+                foreach (GrupoTransacaoViewModel tra in fun)
+                {
+                    value.Add(tra);
+                    Fill(ref value, tra.transacaoId, _sistemaId, _grupoId);
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new App_DominioException(ex.InnerException.Message ?? ex.Message, GetType().FullName);
             }
         }
         #endregion

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LOG>
+  <LOG ID="1850763760" Data="02/02/2014 19:05:05">
+    <Sessao>jznys4fhoguhc1ljup2vrwmk</Sessao>
+    <IP>::1</IP>
+    <HostName>INSPIRON-ANDRE\André</HostName>
+    <Mensagem>Referência de objeto não definida para uma instância de um objeto.</Mensagem>
+    <NameSpace>App_Dominio.Security.EmpresaSecurity`1[[App_Dominio.Entidades.SecurityContext, App_Dominio, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] =&gt; alterarsenha/edit</NameSpace>
+    <Context>usuarioId="1",empresaId="1",login="andreborgesleal@live.com",nome="André Borges Leal",dt_cadastro="04/12/2013 23:33:09",situacao="A",isAdmin="S",senhaAtual="tales",senha="masterkey1",confirmacaoSenha="masterkey"</Context>
+    <StackTrace>   em App_Dominio.Security.EmpresaSecurity`1._ValidarSessao(String sessionId) na c:\Users\André\Source\Repos\App_Dominio\App_Dominio\App_Dominio\Security\EmpresaSecurity.cs:linha 181</StackTrace>
+  </LOG>
+  <LOG ID="1005360753" Data="02/02/2014 19:05:05">
+    <Sessao>jznys4fhoguhc1ljup2vrwmk</Sessao>
+    <IP>::1</IP>
+    <HostName>INSPIRON-ANDRE\André</HostName>
+    <Mensagem>Referência de objeto não definida para uma instância de um objeto.</Mensagem>
+    <NameSpace>Seguranca.Controllers.AlterarSenhaController =&gt; alterarsenha/edit</NameSpace>
+    <Context>usuarioId="1",empresaId="1",login="andreborgesleal@live.com",nome="André Borges Leal",dt_cadastro="04/12/2013 23:33:09",situacao="A",isAdmin="S",senhaAtual="tales",senha="masterkey1",confirmacaoSenha="masterkey"</Context>
+    <StackTrace>   em App_Dominio.Entidades.CrudContext`3.Update(R value) na c:\Users\André\Source\Repos\App_Dominio\App_Dominio\App_Dominio\Entidades\Context.cs:linha 346
+   em App_Dominio.Controllers.RootController`2.SetEdit(R value, ICrudContext`1 model, FormCollection collection, String breadCrumbText, IDictionary`2 text, IRootController`1 s) na c:\Users\André\Source\Repos\App_Dominio\App_Dominio\App_Dominio\Controllers\RootController.cs:linha 201</StackTrace>
+  </LOG>
+</LOG>

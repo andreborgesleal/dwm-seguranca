@@ -9,6 +9,7 @@
 }
 @using (Html.BeginForm("Edit", "Grupos", FormMethod.Post, new { @class = "form-horizontal" }))
 {
+    @Html.HiddenFor(info => info.grupoId)
     <div class="panel panel-default" style="margin-top: 10px">
         <div class="panel-heading">
             <h2 class="panel-title">

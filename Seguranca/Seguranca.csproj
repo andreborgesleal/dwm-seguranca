@@ -38,9 +38,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\logs\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -84,6 +82,7 @@
     <Content Include="App_Code\Lookup.cshtml" />
     <Content Include="App_Code\TextBoxDatePicker.cshtml" />
     <Content Include="App_Code\Typeahead.cshtml" />
+    <Content Include="App_Data\logs\log-02022014.xml" />
     <Content Include="App_Data\MensagemPadrao.xml" />
     <Content Include="Content\bootstrap-mvc-validation.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -183,6 +182,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery.maskedinput.js" />
     <Content Include="Scripts\jquery.validate-fix.js" />
+    <None Include="Properties\PublishProfiles\seguranca - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\seguranca - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\segurancaonline - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\segurancaonline - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\segurancaonline - Web Deploy %282%29.pubxml" />
@@ -430,10 +431,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Documents\sistemas\Seguranca\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.Helpers.dll</HintPath>
     </Reference>
-    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Documents\sistemas\Seguranca\packages\Microsoft.AspNet.Mvc.5.0.0\lib\net45\System.Web.Mvc.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.1\lib\net40\System.Web.Optimization.dll</HintPath>
