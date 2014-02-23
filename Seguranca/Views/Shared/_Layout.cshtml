@@ -65,10 +65,9 @@
             <div id="MsgAlert"></div>
         </div>
         @RenderBody()
-        @*<hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - André Borges Leal - andreborgesleal@live.com</p>
-        </footer>*@
+            <p>version: <i>@System.Configuration.ConfigurationManager.AppSettings["version"]</i></p>
+        </footer>
     </div>
 
     @*@Scripts.Render("~/bundles/jquery")
