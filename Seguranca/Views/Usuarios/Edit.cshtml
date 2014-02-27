@@ -8,17 +8,11 @@
 @using (Html.BeginForm("Edit", "Usuarios", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     @Html.HiddenFor(m => m.usuarioId)
-    @Html.HiddenFor(m => m.empresaId)
-    @Html.HiddenFor(m => m.login)
-    @Html.HiddenFor(m => m.nome)
-    @Html.HiddenFor(m => m.dt_cadastro)
-    @Html.HiddenFor(m => m.situacao)
-    @Html.HiddenFor(m => m.isAdmin)
-    
+   
     <div class="panel panel-default" style="margin-top: 10px">
         <div class="panel-heading">
             <h2 class="panel-title">
-                Usuario <small>Inclusão de usuarios</small>
+                Usuários <small>Editar usuários</small>
             </h2>
         </div>
         <div class="panel-body">
@@ -26,7 +20,7 @@
                 <div class="col-md-12">
                     <blockquote>
                         <p>
-                            Inclusão de Usuarios
+                            Alteração de Usuários
                         </p> <small>Preencher os campos abaixo e depois clicar no botão "Salvar"</small>
                     </blockquote>
                 </div>
