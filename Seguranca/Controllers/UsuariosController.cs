@@ -1,4 +1,5 @@
-﻿using App_Dominio.Controllers;
+﻿using App_Dominio.Contratos;
+using App_Dominio.Controllers;
 using App_Dominio.Entidades;
 using App_Dominio.Negocio;
 using App_Dominio.Repositories;
@@ -90,6 +91,15 @@ namespace Seguranca.Controllers
         public ActionResult Edit(int usuarioId)
         {
             return _Edit(new UsuarioRepository() { usuarioId = usuarioId });
+        }
+
+        public override void BeforeEdit(ref UsuarioRepository value, ICrudContext<UsuarioRepository> model, FormCollection collection) 
+        { 
+            if (String.IsNullOrEmpty(value.senha))
+            {
+                UsuarioRepository temp = model.getObject(value);
+                value.senha = temp.senha;
+            }
         }
         #endregion
 

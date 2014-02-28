@@ -8,7 +8,6 @@
 @using (Html.BeginForm("Edit", "Usuarios", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     @Html.HiddenFor(m => m.usuarioId)
-   
     <div class="panel panel-default" style="margin-top: 10px">
         <div class="panel-heading">
             <h2 class="panel-title">
@@ -21,7 +20,7 @@
                     <blockquote>
                         <p>
                             Alteração de Usuários
-                        </p> <small>Preencher os campos abaixo e depois clicar no botão "Salvar"</small>
+                        </p> <small>Preencher os campos abaixo e depois clicar no botão "Salvar". Observação: Se o campo senha não for informado, será mantido o valor antes da alteração.</small>
                     </blockquote>
                 </div>
             </div>
